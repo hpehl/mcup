@@ -41,11 +41,12 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+      - run: sudo apt-get install asciidoc
       - run: rustup component add rustfmt
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: -- --check
+          args: --all -- --check
 
   clippy:
     name: Clippy
