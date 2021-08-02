@@ -3,9 +3,21 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - uses: reitzig/actions-asciidoctor@v2.0.0
+        with:
+          version: 2.0.10
+
   check:
     name: Check
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -20,6 +32,7 @@ jobs:
   test:
     name: Test Suite
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -34,6 +47,7 @@ jobs:
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -50,6 +64,7 @@ jobs:
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
