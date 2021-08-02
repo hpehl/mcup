@@ -35,16 +35,16 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Flags
 
-`-r, --releases`
+`-r, --releases`  
 Selects released artifacts only
 
-`-s, --snapshots`
+`-s, --snapshots`  
 Selects snapshot artifacts only
 
-`-d, --dry-run`
+`-d, --dry-run`  
 Does not remove artifacts
 
-`--list`
+`--list`  
 Prints the full path to the artifacts that will be removed. Normally `mcup` shows a progress bar while removing the selected artifacts. This flag disables the progress bar and prints the full path to the artifacts that will be removed.
 
 Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
@@ -53,24 +53,24 @@ Use this flag together with `--dry-run` to review or post-process artifacts that
 mcup --dry-run --list --versions '3..' keep > artifacts.txt
 ```
 
-`-h, --help`
+`-h, --help`  
 Prints help information
 
-`-V, --version`
+`-V, --version`  
 Prints version information
 
 ### Options
 
-`-g, --groups <GROUPS>`
+`-g, --groups <GROUPS>`  
 Selects artifacts based on the group ID. Subgroups are included by default. Subgroups are included by default.
 
-`-a, --artifacts <ARTIFACTS>`
+`-a, --artifacts <ARTIFACTS>`  
 Selects artifacts based on the artifact ID. Supports globbing like in `maven-*-plugin`.
 
-`-v, --versions <VERSIONS>`
+`-v, --versions <VERSIONS>`  
 Selects artifacts based on version (ranges). Use `<n>..` to select the _n_ most recent versions, `..<n>` to select the _n_ oldest versions and `<version>` to select one specific _version_ only.
 
-`-l, --local-repository <LOCAL_REPOSITORY>`
+`-l, --local-repository <LOCAL_REPOSITORY>`  
 Sets the location of the local maven repository. Respects the directory configured in `~/.m2/settings.xml`. Falls back to `~/.m2/repository`, if nothing has been specified or configured.
 
 ### Groups
