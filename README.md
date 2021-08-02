@@ -140,43 +140,43 @@ Thus, the location of the local repository is computed in this order:
 
 ## Examples
 
-Keeps the three most recent versions 
+Keep the three most recent versions 
 
 ```shell
 mcup --versions '3..' keep
 ```
 
-Removes the three oldest versions
+Remove the three oldest versions
 
 ```shell
 mcup --versions '..3' rm
 ```
 
-Keeps the latest releases (doesn't touch snapshots)
+Keep the latest releases (doesn't touch snapshots)
 
 ```shell
 mcup --releases --version '1..' keep
 ```
 
-Removes all snapshots
+Remove all snapshots
 
 ```shell
 mcup --snapshots rm
 ```
 
-Removes all artifacts starting with group ID 'edu'
+Remove all artifacts starting with group ID 'edu'
 
 ```shell
 mcup --groups edu rm
 ```
 
-Keeps the latest maven plugins. Doesn't remove anything outside group 'org.apache.maven.plugins'
+Keep the latest maven plugins. Don't remove anything outside group 'org.apache.maven.plugins'
 
 ```shell
 mcup --groups 'org.apache.maven.plugins' --versions '1..' keep
 ```
 
-Removes all artifacts (across all groups) starting with 'junit'
+Remove all artifacts (across all groups) starting with 'junit'
 
 ```shell
 mcup --artifacts 'junit*' rm
