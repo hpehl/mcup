@@ -54,6 +54,8 @@ jobs:
       CARGO: cargo
       TARGET_DIR: ./target
       RUST_BACKTRACE: 1
+      MCUP_BUILD_MAN_PAGE: true
+      MCUP_BUILD_SHELL_COMPLETIONS: true
     strategy:
       matrix:
         build: [linux, linux-arm, macos, win-msvc, win-gnu, win32-msvc]
