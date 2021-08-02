@@ -1,27 +1,31 @@
+use process::Command;
 use std::env;
 use std::path::Path;
 use std::process;
 
-use anyhow::{Result, Context};
+use anyhow::{Context, Result};
 use clap_generate::generate_to;
 use clap_generate::generators::{Bash, Elvish, Fish, PowerShell, Zsh};
-use process::Command;
 
 include!("src/app.rs");
 
 const APP_NAME: &str = "mcup";
 
 fn main() -> Result<()> {
-    if let Ok(profile) = env::var("PROFILE") {
-        if profile == "release" {
-            let out_dir = env::var("OUT_DIR").unwrap();
-            let out_dir = Path::new(out_dir.as_str());
+    let out_dir = env::var("OUT_DIR").unwrap();
+    let out_dir = Path::new(out_dir.as_str());
 
-            generate_shell_completions(out_dir)?;
-            generate_man_page(out_dir)?;
-        }
+    if check_feature("SHELL_COMPLETIONS") {
+        generate_shell_completions(out_dir)?;
+    }
+    if check_feature("MAN_PAGE") {
+        generate_man_page(out_dir)?;
     }
     Ok(())
+}
+
+fn check_feature(feature: &str) -> bool {
+    env::var_os(format!("MCUP_BUILD_{}", feature)).is_some()
 }
 
 fn generate_shell_completions(out: &Path) -> Result<()> {
