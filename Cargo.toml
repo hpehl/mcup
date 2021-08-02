@@ -1,6 +1,6 @@
 [package]
 name = "mcup"
-version = "0.1.0"
+version = "0.0.1"
 authors = [ "Harald Pehl <harald.pehl@gmail.com>" ]
 edition = "2018"
 description = "Command line tool to keep your local maven repository small and tidy."
@@ -30,3 +30,11 @@ walkdir = "2.3.2"
 anyhow = "1.0.42"
 clap = "3.0.0-beta.2"
 clap_generate = "3.0.0-beta.2"
+
+# make dev builds faster by excluding debug symbols
+[profile.dev]
+debug = false
+
+# use LTO for smaller binaries (that take longer to build)
+[profile.release]
+lto = true
