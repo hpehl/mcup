@@ -1,6 +1,7 @@
-on: [push, pull_request]
+---
+name: ci
 
-name: Continuous integration
+on: [push, pull_request]
 
 jobs:
   check:

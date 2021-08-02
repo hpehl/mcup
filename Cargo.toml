@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/hpehl/mcup"
 repository = "https://github.com/hpehl/mcup"
 license = "Apache-2.0"
-keywords = ["cli", "maven"]
+keywords = ["cli", "maven", "repository"]
 categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
