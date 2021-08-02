@@ -12,11 +12,15 @@ include!("src/app.rs");
 const APP_NAME: &str = "mcup";
 
 fn main() -> Result<()> {
-    let out_dir = env::var("OUT_DIR").unwrap();
-    let out_dir = Path::new(out_dir.as_str());
+    if let Ok(profile) = env::var("PROFILE") {
+        if profile == "release" {
+            let out_dir = env::var("OUT_DIR").unwrap();
+            let out_dir = Path::new(out_dir.as_str());
 
-    generate_shell_completions(out_dir)?;
-    generate_man_page(out_dir)?;
+            generate_shell_completions(out_dir)?;
+            generate_man_page(out_dir)?;
+        }
+    }
     Ok(())
 }
 
