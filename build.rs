@@ -41,7 +41,9 @@ fn generate_shell_completions(out: &Path) -> Result<()> {
 }
 
 fn generate_man_page(out: &Path) -> Result<()> {
-    Command::new("asciidoctor").output().with_context(|| "Could not run 'asciidoctor' binary.")?;
+    Command::new("asciidoctor")
+        .output()
+        .with_context(|| "Could not run 'asciidoctor' binary.")?;
 
     let cwd = env::current_dir()?;
     let adoc = cwd.join("doc").join(format!("{}.adoc", APP_NAME));
