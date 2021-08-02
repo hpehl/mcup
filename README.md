@@ -1,6 +1,6 @@
 # Maven Clean Up
 
-`mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small and tidy.
+`mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small 📦 and tidy 🧹.
 
 [Maven](https://maven.apache.org/) is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
 
