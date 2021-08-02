@@ -1,0 +1,323 @@
+'\" t
+.\"     Title: mcup
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.15
+.\"      Date: 2021-08-02
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "MCUP" "1" "2021-08-02" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+mcup \- Command line tool to keep your local maven repository small and tidy.
+.SH "SYNOPSIS"
+.sp
+\fBmcup\fP [\fIFLAGS\fP] [\fIOPTIONS\fP] \fISUBCOMMAND\fP
+.SH "DESCRIPTION"
+.sp
+Maven is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
+.sp
+The mcup(1) command helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates \fIgroupId\fP, \fIartifactId\fP and \fIversion\fP. It knows two modes:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 1." 4.2
+.\}
+remove all artifacts selected by the filters and keep the rest
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 2." 4.2
+.\}
+keep all artifacts selected by the filters and remove the rest
+.RE
+.SH "FLAGS"
+.sp
+\fB\-r, \-\-releases\fP
+.RS 4
+Selects released artifacts only
+.RE
+.sp
+\fB\-s, \-\-snapshots\fP
+.RS 4
+Selects snapshot artifacts only
+.RE
+.sp
+\fB\-d, \-\-dry\-run\fP
+.RS 4
+Does not remove artifacts
+.RE
+.sp
+\fB\-\-list\fP
+.RS 4
+Prints the full path to the artifacts that will be removed. Normally mcup(1) shows a progress bar while removing the selected artifacts. This flag disables the progress bar and prints the full path to the artifacts that will be removed.
+.sp
+Use this flag together with \fI\-\-dry\-run\fP to review or post\-process artifacts that will be removed:
+.sp
+.if n .RS 4
+.nf
+.fam C
+mcup \-\-dry\-run \-\-list \-\-versions \(aq3..\(aq keep > artifacts.txt
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fB\-h, \-\-help\fP
+.RS 4
+Prints help information
+.RE
+.sp
+\fB\-V, \-\-version\fP
+.RS 4
+Prints version information
+.RE
+.SH "OPTIONS"
+.sp
+\fB\-g, \-\-groups\fP \fIGROUPS\fP
+.RS 4
+Selects artifacts based on the group ID. Subgroups are included by default:
+.sp
+.if n .RS 4
+.nf
+.fam C
+\(aqorg\(aq                 All groups starting with \(aqorg\(aq (including \(aqorg\(aq)
+\(aqorg.wildfly\(aq         All groups starting with \(aqorg.wildfly\(aq (includes \(aqorg.wildfly)
+\(aqorg.wildfly.core\(aq    All groups starting with \(aqorg.wildfly.core\(aq (includes \(aqorg.wildfly.core\(aq)
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fB\-a, \-\-artifacts\fP \fIARTIFACTS\fP
+.RS 4
+Selects artifacts based on the artifact ID. Supports globbing like in \(aqmaven\-*\-plugin\(aq.
+.RE
+.sp
+\fB\-v, \-\-versions\fP \fIVERSIONS\fP
+.RS 4
+Selects artifacts based on version (ranges). Use \fI\(aq<n>..\(aq\fP to select the \fIn\fP most recent versions, \fI\(aq..<n>\(aq\fP to select the \fIn\fP oldest versions and \fI\(aq<version>\(aq\fP to select one specific version only:
+.sp
+.if n .RS 4
+.nf
+.fam C
+\(aq2..\(aq    the two most recent versions
+\(aq..3\(aq    the three oldest versions
+\(aq1.2.3\(aq  exactly version 1.2.3
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fB\-l, \-\-local\-repository\fP \fILOCAL_REPOSITORY\fP
+.RS 4
+Sets the location of the local maven repository. Respects the directory configured by \fI<localRepository/>\fP in \(aq~/.m2/settings.xml\(aq. Falls back to \(aq~/.m2/repository\(aq, if nothing has been specified or configured.
+.sp
+Thus, the location of the local repository is computed in this order:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 1." 4.2
+.\}
+The value of the option \fI\-\-local\-repository\fP
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 2." 4.2
+.\}
+The value of \fI<localRepository/>\fP in \(aq~/.m2/settings.xml\(aq
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 3." 4.2
+.\}
+Fall back to \(aq~/.m2/repository/\(aq
+.RE
+.RE
+.SH "SUBCOMMANDS"
+.sp
+\fBkeep\fP
+.RS 4
+Keeps the artifacts matched by the filters and removes the rest
+.RE
+.sp
+\fBrm\fP
+.RS 4
+Removes the artifacts matched by the filters and keeps the rest
+.RE
+.SH "EXIT STATUS"
+.sp
+\fB0\fP
+.RS 4
+Success.
+.RE
+.sp
+\fB1\fP
+.RS 4
+Unsuccessful program execution.
+.RE
+.sp
+\fB101\fP
+.RS 4
+The program panicked.
+.RE
+.SH "FILTER COMBINATIONS"
+.sp
+At least one of \fI\-\-releases\fP, \fI\-\-snapshots\fP, \fI\-\-groups\fP, \fI\-\-artifacts\fP or \fI\-\-versions\fP is required, where \fI\-\-releases\fP and \fI\-\-snapshots\fP are mutually exclusive.
+.sp
+If \fI\-\-groups\fP is specified together with any other filter, only artifacts \fIbelow\fP the matched (sub)groups are subject to the subcommands (\fIkeep\fP resp. \fIrm\fP). Artifacts \fIoutside\fP the matched (sub)groups won\(cqt be touched.
+.sp
+The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
+.TS
+allbox tab(:);
+lt lt lt.
+T{
+.sp
+Filter
+T}:T{
+.sp
+keep
+T}:T{
+.sp
+rm
+T}
+T{
+.sp
+\fI\-\-groups\fP only
+T}:T{
+.sp
+Keeps the specified (sub)groups and removes anything else.
+T}:T{
+.sp
+Removes the specified (sub)groups.
+T}
+T{
+.sp
+\fI\-\-artifacts\fP only
+T}:T{
+.sp
+Keeps the specified artifacts and removes anything else.
+T}:T{
+.sp
+Removes the specified artifacts.
+T}
+T{
+.sp
+\fI\-\-versions\fP only
+T}:T{
+.sp
+Keeps the specified versions and removes anything else.
+T}:T{
+.sp
+Removes the specified versions.
+T}
+T{
+.sp
+\fI\-\-groups\fP plus any other filter
+T}:T{
+.sp
+Keeps the artifacts matched by the filters below the specified (sub)groups and removes anything else.
+T}:T{
+.sp
+Removes the artifacts matched by the filters below the specified (sub)groups and keeps anything else.
+T}
+T{
+.sp
+All other combinations w/o \fI\-\-groups\fP
+T}:T{
+.sp
+Keeps the artifacts matched by the filters and removes anything else.
+T}:T{
+.sp
+Removes the artifacts matched by the filters.
+T}
+.TE
+.sp
+.SH "EXAMPLES"
+.sp
+Keep the three most recent versions
+.br
+\fBmcup \-\-versions \(aq3..\(aq keep\fP
+.sp
+Remove the three oldest versions
+.br
+\fBmcup \-\-versions \(aq..3\(aq rm\fP
+.sp
+Keep the latest releases (doesn\(cqt touch snapshots)
+.br
+\fBmcup \-\-releases \-\-version \(aq1..\(aq keep\fP
+.sp
+Remove all snapshots
+.br
+\fBmcup \-\-snapshots rm\fP
+.sp
+Remove all artifacts starting with group ID \(aqedu\(aq
+.br
+\fBmcup \-\-groups edu rm\fP
+.sp
+Keep the latest maven plugins. Don\(cqt remove anything outside group \(aqorg.apache.maven.plugins\(aq.
+.br
+\fBmcup \-\-groups \(aqorg.apache.maven.plugins\(aq \-\-versions \(aq1..\(aq keep\fP
+.sp
+Remove all artifacts (across all groups) starting with \(aqjunit\(aq
+.br
+\fBmcup \-\-artifacts \(aqjunit\fP\(aq rm*
+.SH "VERSION"
+.sp
+{VERSION}
+.SH "RESOURCES"
+.sp
+\fBHomepage:\fP \c
+.URL "https://github.com/hpehl/mcup" "" ""
+.sp
+\fBSource code:\fP \c
+.URL "https://github.com/hpehl/mcup" "" ""
+.sp
+\fBIssue Tracker:\fP \c
+.URL "https://github.com/hpehl/mcup/issues/" "" ""
+.SH "AUTHORS"
+.sp
+Harald Pehl \c
+.MTO "harald.pehl\(atgmail.com" "" ""

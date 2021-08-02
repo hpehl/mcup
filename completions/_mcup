@@ -1,0 +1,86 @@
+#compdef mcup
+
+autoload -U is-at-least
+
+_mcup() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-g+[Selects artifacts based on the group ID. Subgroups are included by default.]' \
+'--groups=[Selects artifacts based on the group ID. Subgroups are included by default.]' \
+'-a+[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]' \
+'--artifacts=[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]' \
+'-v+[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]' \
+'--versions=[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]' \
+'-l+[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]' \
+'--local-repository=[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]' \
+'(-s --snapshots)-r[Selects released artifacts only]' \
+'(-s --snapshots)--releases[Selects released artifacts only]' \
+'(-r --releases)-s[Selects snapshot artifacts only]' \
+'(-r --releases)--snapshots[Selects snapshot artifacts only]' \
+'-d[Does not remove artifacts]' \
+'--dry-run[Does not remove artifacts]' \
+'--list[Prints the full path to the artifacts that will be removed]' \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+":: :_mcup_commands" \
+"*::: :->mcup" \
+&& ret=0
+    case $state in
+    (mcup)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mcup-command-$line[1]:"
+        case $line[1] in
+            (keep)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+&& ret=0
+;;
+(rm)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_mcup_commands] )) ||
+_mcup_commands() {
+    local commands; commands=(
+        "keep:Keeps the artifacts matched by the filters and removes the rest" \
+"rm:Removes the artifacts matched by the filters and keeps the rest" \
+    )
+    _describe -t commands 'mcup commands' commands "$@"
+}
+(( $+functions[_mcup__keep_commands] )) ||
+_mcup__keep_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'mcup keep commands' commands "$@"
+}
+(( $+functions[_mcup__rm_commands] )) ||
+_mcup__rm_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'mcup rm commands' commands "$@"
+}
+
+_mcup "$@"
