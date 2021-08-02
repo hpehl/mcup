@@ -1,0 +1,162 @@
+= mcup(1)
+:doctype: manpage
+:release-version: 0.1.0
+
+== NAME
+
+mcup - Command line tool to keep your local maven repository small and tidy.
+
+== SYNOPSIS
+
+*mcup* [_FLAGS_] [_OPTIONS_] _SUBCOMMAND_
+
+== DESCRIPTION
+
+Maven is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
+
+The mcup(1) command helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates _groupId_, _artifactId_ and _version_. It knows two modes:
+
+. remove all artifacts selected by the filters and keep the rest
+. keep all artifacts selected by the filters and remove the rest
+
+== FLAGS
+
+*-r, --releases*::
+  Selects released artifacts only
+
+*-s, --snapshots*::
+  Selects snapshot artifacts only
+
+*-d, --dry-run*::
+  Does not remove artifacts
+
+*--list*::
+  Prints the full path to the artifacts that will be removed. Normally mcup(1) shows a progress bar while removing the selected artifacts. This flag disables the progress bar and prints the full path to the artifacts that will be removed.
++
+Use this flag together with _--dry-run_ to review or post-process artifacts that will be removed:
++
+    mcup --dry-run --list --versions '3..' keep > artifacts.txt
+
+*-h, --help*::
+  Prints help information
+
+*-V, --version*::
+  Prints version information
+
+== OPTIONS
+
+*-g, --groups* _GROUPS_::
+  Selects artifacts based on the group ID. Subgroups are included by default:
++
+    'org'                 All groups starting with 'org' (including 'org')
+    'org.wildfly'         All groups starting with 'org.wildfly' (includes 'org.wildfly)
+    'org.wildfly.core'    All groups starting with 'org.wildfly.core' (includes 'org.wildfly.core')
+
+*-a, --artifacts* _ARTIFACTS_::
+  Selects artifacts based on the artifact ID. Supports globbing like in 'maven-*-plugin'.
+
+*-v, --versions* _VERSIONS_::
+  Selects artifacts based on version (ranges). Use _'<n>..'_ to select the _n_ most recent versions, _'..<n>'_ to select the _n_ oldest versions and _'<version>'_ to select one specific version only:
++
+    '2..'    the two most recent versions
+    '..3'    the three oldest versions
+    '1.2.3'  exactly version 1.2.3
+
+*-l, --local-repository* _LOCAL_REPOSITORY_::
+  Sets the location of the local maven repository. Respects the directory configured by _<localRepository/>_ in '~/.m2/settings.xml'. Falls back to '~/.m2/repository', if nothing has been specified or configured.
++
+Thus, the location of the local repository is computed in this order:
+
+. The value of the option _--local-repository_
+. The value of _<localRepository/>_ in '~/.m2/settings.xml'
+. Fall back to '~/.m2/repository/'
+
+== SUBCOMMANDS
+
+*keep*::
+  Keeps the artifacts matched by the filters and removes the rest
+
+*rm*::
+  Removes the artifacts matched by the filters and keeps the rest
+
+== EXIT STATUS
+
+*0*::
+  Success.
+
+*1*::
+  Unsuccessful program execution.
+
+*101*::
+  The program panicked.
+
+== FILTER COMBINATIONS
+
+At least one of _--releases_, _--snapshots_, _--groups_, _--artifacts_ or _--versions_ is required, where _--releases_ and _--snapshots_ are mutually exclusive.
+
+If _--groups_ is specified together with any other filter, only artifacts _below_ the matched (sub)groups are subject to the subcommands (_keep_ resp. _rm_). Artifacts _outside_ the matched (sub)groups won't be touched.
+
+The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
+
+|===
+|Filter | keep| rm
+
+| _--groups_ only
+| Keeps the specified (sub)groups and removes anything else.
+| Removes the specified (sub)groups.
+
+| _--artifacts_ only
+| Keeps the specified artifacts and removes anything else.
+| Removes the specified artifacts.
+
+| _--versions_ only
+| Keeps the specified versions and removes anything else.
+| Removes the specified versions.
+
+| _--groups_ plus any other filter
+| Keeps the artifacts matched by the filters below the specified (sub)groups and removes anything else.
+| Removes the artifacts matched by the filters below the specified (sub)groups and keeps anything else.
+
+| All other combinations w/o _--groups_
+| Keeps the artifacts matched by the filters and removes anything else.
+| Removes the artifacts matched by the filters.
+|===
+
+== EXAMPLES
+
+Keeps the three most recent versions +
+*mcup --versions '3..' keep*
+
+Removes the three oldest versions +
+*mcup --versions '..3' rm*
+
+Keeps the latest releases (doesn't touch snapshots) +
+*mcup --releases --version '1..' keep*
+
+Removes all snapshots +
+*mcup --snapshots rm*
+
+Removes all artifacts starting with group ID 'edu' +
+*mcup --groups edu rm*
+
+Keeps the latest maven plugins. Doesn't remove anything outside group 'org.apache.maven.plugins'. +
+*mcup --groups 'org.apache.maven.plugins' --versions '1..' keep*
+
+Removes all artifacts (across all groups) starting with 'junit' +
+*mcup --artifacts 'junit*' rm*
+
+== VERSION
+
+{VERSION}
+
+== RESOURCES
+
+*Homepage:* https://github.com/hpehl/mcup
+
+*Source code:* https://github.com/hpehl/mcup
+
+*Issue Tracker:* https://github.com/hpehl/mcup/issues/
+
+== AUTHORS
+
+Harald Pehl <harald.pehl@gmail.com>
