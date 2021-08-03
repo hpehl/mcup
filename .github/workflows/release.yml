@@ -120,6 +120,7 @@ jobs:
 
           cp {README.md,LICENSE.txt} "$staging/"
           cp CHANGELOG.md "$staging/doc"
+          cp doc/mcup.1 "$staging/doc"
           cp completions/{_mcup,_mcup.ps1,mcup.bash,mcup.elv,mcup.fish} "$staging/completions/"
 
           if [ "${{ matrix.os }}" = "windows-2019" ]; then
