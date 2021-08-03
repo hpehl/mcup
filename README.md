@@ -21,11 +21,11 @@ Support for various package managers is _wip_.
 
 The release binaries are packaged with a man page and shell completion files for bash, fish, zsh, elvish and Powershell. To install them:
 
-- for bash, move completions/mcup.bash to $XDG_CONFIG_HOME/bash_completion or /etc/bash_completion.d/.
-- for fish, move completions/mcup.fish to $HOME/.config/fish/completions/.
-- for zsh, move completions/_mcup to one of your $fpath directories.
-- for elvish, install completions/mcup.elv with [epm](https://elv.sh/ref/epm.html)
-- for PowerShell, add completions/_mcup.ps1 to your PowerShell profile.
+- for bash, move `completions/mcup.bash` to `$XDG_CONFIG_HOME/bash_completion` or `/etc/bash_completion.d/`.
+- for fish, move `completions/mcup.fish` to `~/.config/fish/completions/`.
+- for zsh, move `completions/_mcup` to one of your `$fpath` directories.
+- for elvish, install `completions/mcup.elv` with [epm](https://elv.sh/ref/epm.html)
+- for PowerShell, add `completions/_mcup.ps1` to your PowerShell profile.
 
 ### Cargo
 
