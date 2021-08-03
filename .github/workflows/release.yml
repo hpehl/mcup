@@ -48,7 +48,7 @@ jobs:
 
   build-release:
     name: build-release
-    needs: ['create-release']
+    needs: [ 'create-release' ]
     runs-on: ${{ matrix.os }}
     env:
       CARGO: cargo
@@ -56,7 +56,7 @@ jobs:
       RUST_BACKTRACE: 1
     strategy:
       matrix:
-        build: [linux, linux-arm, macos, win-msvc, win-gnu, win32-msvc]
+        build: [ linux, linux-arm, macos, win-msvc, win-gnu, win32-msvc ]
         include:
           - build: linux
             os: ubuntu-18.04
@@ -102,21 +102,30 @@ jobs:
         run: |
           cargo install cross
           echo "CARGO=cross" >> $GITHUB_ENV
+          echo "TARGET_FLAGS=--target ${{ matrix.target }}" >> $GITHUB_ENV
           echo "TARGET_DIR=./target/${{ matrix.target }}" >> $GITHUB_ENV
 
       - name: Show command used for Cargo
         run: |
           echo "cargo command is: ${{ env.CARGO }}"
+          echo "target flag is: ${{ env.TARGET_FLAGS }}"
           echo "target dir is: ${{ env.TARGET_DIR }}"
 
       - name: Build release binary
-        run: ${{ env.CARGO }} build --release
+        run: ${{ env.CARGO }} build --release --features ${{ env.TARGET_FLAGS }}
 
-      - name: Show target
-        run: ls -lFR target
+      - name: Strip release binary (linux and macos)
+        if: matrix.build == 'linux' || matrix.build == 'macos'
+        run: strip "target/${{ matrix.target }}/release/rg"
 
-      - name: Show TARGET_DIR
-        run: ls -lFR ${{ env.TARGET_DIR }}
+      - name: Strip release binary (arm)
+        if: matrix.build == 'linux-arm'
+        run: |
+          docker run --rm -v \
+            "$PWD/target:/target:Z" \
+            rustembedded/cross:arm-unknown-linux-gnueabihf \
+            arm-linux-gnueabihf-strip \
+            /target/arm-unknown-linux-gnueabihf/release/rg
 
       - name: Build archive
         shell: bash
