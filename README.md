@@ -6,21 +6,28 @@
 
 [Maven](https://maven.apache.org/) is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
 
-`mcup` helps you to clean up your local repository. It uses filters to select artifacts based on the Maven 
-coordinates `groupId`, `artifactId` and `version`. It knows two modes:
+`mcup` helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates `groupId`, `artifactId` and `version`. It knows two modes:
 
 1. remove all artifacts selected by the filters and keep the rest
 2. keep all artifacts selected by the filters and remove the rest
 
 ## Installation
 
-[Precompiled binaries](https://github.com/hpehl/mcup/releases) of mcup are available for Windows,
-macOS and Linux. 
-
-Shell completion files are available for Bash, Zsh, Fish, Elvish and PowerShell. For Unix based systems a man page 
-is available as well. 
-
 Support for various package managers is _wip_.
+
+[Precompiled binaries](https://github.com/hpehl/mcup/releases) are available for Windows, macOS and Linux. 
+
+### Shell Completion
+
+The release binaries are packaged with a man page and shell completion files for bash, fish, zsh, elvish and Powershell. To install them:
+
+- for bash, move completions/mcup.bash to $XDG_CONFIG_HOME/bash_completion or /etc/bash_completion.d/.
+- for fish, move completions/mcup.fish to $HOME/.config/fish/completions/.
+- for zsh, move completions/_mcup to one of your $fpath directories.
+- for elvish, install completions/mcup.elv with [epm](https://elv.sh/ref/epm.html)
+- for PowerShell, add completions/_mcup.ps1 to your PowerShell profile.
+
+### Cargo
 
 If you're a Rust programmer, mcup can also be installed using `cargo`:
 
@@ -114,8 +121,7 @@ Subcommand must be one of
 
 At least one of `--releases`, `--snapshots`, `--groups`, `--artifacts` or `--versions` is required, where `--releases` and `--snapshots` are mutually exclusive.
 
-If `--groups` is specified together with any other filter, only artifacts *below* the matched (sub)groups are 
-subject to the subcommands (`keep` resp. `rm`). Artifacts *outside* the matched (sub)groups won't be touched. 
+If `--groups` is specified together with any other filter, only artifacts *below* the matched (sub)groups are subject to the subcommands (`keep` resp. `rm`). Artifacts *outside* the matched (sub)groups won't be touched. 
 
 The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
 
