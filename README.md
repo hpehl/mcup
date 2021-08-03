@@ -1,5 +1,5 @@
 [![Build status](https://github.com/BurntSushi/ripgrep/workflows/ci/badge.svg)](https://github.com/BurntSushi/ripgrep/actions)
-
+[![Crates.io](https://img.shields.io/crates/v/mcup.svg)](https://crates.io/crates/mcup)
 # Maven Clean Up
 
 `mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small 📦 and tidy 🧹.
@@ -14,20 +14,21 @@ coordinates `groupId`, `artifactId` and `version`. It knows two modes:
 
 ## Installation
 
-Pending...
+[Precompiled binaries](https://github.com/hpehl/mcup/releases) of mcup are available for Windows,
+macOS and Linux. 
 
-### Shell Completions
+Shell completion files are available for Bash, Zsh, Fish, Elvish and PowerShell.
 
-Shell completion files are available for Bash, Fish, Zsh and PowerShell.
+If you're a Rust programmer, mcup can be installed with `cargo`.
 
-For `bash`, move `mcup.bash` to `$XDG_CONFIG_HOME/bash_completion`
-or `/etc/bash_completion.d/`.
+- Note that the minimum supported version of Rust for mcup is **1.34.0**.
+- Note that the binary may be bigger than expected because it contains debug
+  symbols. This is intentional. To remove debug symbols and therefore reduce
+  the file size, run `strip` on the binary.
 
-For `zsh`, move `_mcup` to one of your `$fpath` directories.
-
-For `fish`, move `mcup.fish` to `$HOME/.config/fish/completions`.
-
-For `elvish`, install `mcup.elv` using the elvish package manager.
+```
+$ cargo install mcup
+```
 
 ## Usage
 
