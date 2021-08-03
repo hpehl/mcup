@@ -43,32 +43,25 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Flags
 
-`-r, --releases`  
-Selects released artifacts only
+`-r, --releases`  Selects released artifacts only
 
-`-s, --snapshots`  
-Selects snapshot artifacts only
+`-s, --snapshots`  Selects snapshot artifacts only
 
-`-d, --dry-run`  
-Does not remove artifacts
+`-d, --dry-run`  Does not remove artifacts
 
-`--list`  
-Prints the full path to the artifacts that will be removed. Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+`--list`  Prints the full path to the artifacts that will be removed. Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
 ```shell
 mcup --dry-run --list --versions '3..' keep > artifacts.txt
 ```
 
-`-h, --help`  
-Prints help information
+`-h, --help`  Prints help information
 
-`-V, --version`  
-Prints version information
+`-V, --version`  Prints version information
 
 ### Options
 
-`-g, --groups <GROUPS>`  
-Selects artifacts based on the group ID. Subgroups are included by default.
+`-g, --groups <GROUPS>`  Selects artifacts based on the group ID. Subgroups are included by default.
 
 | Group            | Selection                                                    |
 | ---------------- | ------------------------------------------------------------ |
@@ -76,16 +69,14 @@ Selects artifacts based on the group ID. Subgroups are included by default.
 | org.wildfly      | All groups starting with 'org.wildfly' (includes 'org.wildfly) |
 | org.wildfly.core | All groups starting with 'org.wildfly.core' (includes 'org.wildfly.core') |
 
-`-a, --artifacts <ARTIFACTS>`  
-Selects artifacts based on the artifact ID. Supports globbing like in `maven-*-plugin` (see https://docs.rs/glob/0.3.0/glob/ for more details).
+`-a, --artifacts <ARTIFACTS>`  Selects artifacts based on the artifact ID. Supports globbing like in `maven-*-plugin` (see https://docs.rs/glob/0.3.0/glob/ for more details).
 
 | Artifact     | Selection                          |
 | ------------ | ---------------------------------- |
 | wildfly-core | Artifact 'wildfly-core' only       |
 | \*wildfly\*  | All artifacts containing 'wildfly' |
 
-`-v, --versions <VERSIONS>`  
-Selects artifacts based on version (ranges). Use `<n>..` to select the _n_ most recent versions, `..<n>` to select the _n_ oldest versions and `<version>` to select one specific _version_ only.
+`-v, --versions <VERSIONS>`  Selects artifacts based on version (ranges). Use `<n>..` to select the _n_ most recent versions, `..<n>` to select the _n_ oldest versions and `<version>` to select one specific _version_ only.
 
 | Version | Selection                  |
 | ------- | -------------------------- |
@@ -95,8 +86,7 @@ Selects artifacts based on version (ranges). Use `<n>..` to select the _n_ most 
 | ..4     | The 4 oldest versions      |
 | 1.2.3   | Version 1.2.3              |
 
-`-l, --local-repository <LOCAL_REPOSITORY>`  
-Sets the location of the local maven repository.
+`-l, --local-repository <LOCAL_REPOSITORY>`  Sets the location of the local maven repository.
 
 `mcup` respects the configuration of the local repository according to https://maven.apache/org/guides/mini/guide-configuring-maven.html#configuring-your-local-repository. The location of the local repository is computed in this order:
 
