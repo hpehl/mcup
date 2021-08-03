@@ -1,3 +1,5 @@
+[![Build status](https://github.com/BurntSushi/ripgrep/workflows/ci/badge.svg)](https://github.com/BurntSushi/ripgrep/actions)
+
 # Maven Clean Up
 
 `mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small 📦 and tidy 🧹.
