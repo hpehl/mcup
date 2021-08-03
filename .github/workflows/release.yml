@@ -110,11 +110,11 @@ jobs:
           echo "target dir is: ${{ env.TARGET_DIR }}"
 
       - name: Build release binary
-        run: ${{ env.CARGO }} build --verbose --release
+        run: ${{ env.CARGO }} build --release
 
       - name: Strip release binary (linux and macos)
         if: matrix.build == 'linux' || matrix.build == 'macos'
-        run: strip "target/${{ matrix.target }}/release/mcup"
+        run: strip "${{ env.TARGET }}/release/mcup"
 
       - name: Strip release binary (arm)
         if: matrix.build == 'linux-arm'
