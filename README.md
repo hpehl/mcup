@@ -43,21 +43,29 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Flags
 
-`-r, --releases`  Selects released artifacts only
+<dl>
+<dt>`-r, --releases`</dt>
+<dd>Selects released artifacts only</dd>
 
-`-s, --snapshots`  Selects snapshot artifacts only
+<dt>`-s, --snapshots`</dt>
+<dd>Selects snapshot artifacts only</dd>
 
-`-d, --dry-run`  Does not remove artifacts
+<dt>`-d, --dry-run`</dt>
+<dd>Does not remove artifacts</dd>
 
-`--list`  Prints the full path to the artifacts that will be removed. Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+<dt>`--list`</dt>
+<dd>Prints the full path to the artifacts that will be removed. Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
 ```shell
 mcup --dry-run --list --versions '3..' keep > artifacts.txt
-```
+```</dd>
 
-`-h, --help`  Prints help information
+<dt>`-h, --help`</dt>
+<dd>Prints help information</dd>
 
-`-V, --version`  Prints version information
+<dt>`-V, --version`</dt>
+<dd>Prints version information</dd>
+</dl>
 
 ### Options
 
