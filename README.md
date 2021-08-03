@@ -21,11 +21,11 @@ Support for various package managers is _wip_.
 
 The release binaries are packaged with a man page and shell completion files for bash, fish, zsh, elvish and Powershell. To install them:
 
-- for bash, move `completions/mcup.bash` to `$XDG_CONFIG_HOME/bash_completion` or `/etc/bash_completion.d/`.
-- for fish, move `completions/mcup.fish` to `~/.config/fish/completions/`.
-- for zsh, move `completions/_mcup` to one of your `$fpath` directories.
-- for elvish, install `completions/mcup.elv` with [epm](https://elv.sh/ref/epm.html)
-- for PowerShell, add `completions/_mcup.ps1` to your PowerShell profile.
+* for bash, move `completions/mcup.bash` to `$XDG_CONFIG_HOME/bash_completion` or `/etc/bash_completion.d/`.
+* for fish, move `completions/mcup.fish` to `~/.config/fish/completions/`.
+* for zsh, move `completions/_mcup` to one of your `$fpath` directories.
+* for elvish, install `completions/mcup.elv` with [epm](https://elv.sh/ref/epm.html)
+* for PowerShell, add `completions/_mcup.ps1` to your PowerShell profile.
 
 ### Cargo
 
@@ -43,23 +43,23 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Flags
 
-`-r, --releases` Selects released artifacts only
+* `-r, --releases` Selects released artifacts only
 
-`-s, --snapshots` Selects snapshot artifacts only
+* `-s, --snapshots` Selects snapshot artifacts only
 
-`-d, --dry-run` Does not remove artifacts
+* `-d, --dry-run` Does not remove artifacts
 
-`--list` Prints the full path to the artifacts that will be removed. 
+* `--list` Prints the full path to the artifacts that will be removed. 
 
-Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+  Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
-```shell
-mcup --dry-run --list --versions '3..' keep > artifacts.txt
-```
+  ```shell
+  mcup --dry-run --list --versions '3..' keep > artifacts.txt
+  ```
 
-`-h, --help` Prints help information
+* `-h, --help` Prints help information
 
-`-V, --version` Prints version information
+* `-V, --version` Prints version information
 
 ### Options
 
