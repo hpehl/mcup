@@ -51,11 +51,11 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 `--list` Prints the full path to the artifacts that will be removed. 
 
-Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+  Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
-```shell
-mcup --dry-run --list --versions '3..' keep > artifacts.txt
-```
+  ```shell
+  mcup --dry-run --list --versions '3..' keep > artifacts.txt
+  ```
 
 `-h, --help` Prints help information
 
