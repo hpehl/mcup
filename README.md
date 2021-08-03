@@ -17,14 +17,12 @@ coordinates `groupId`, `artifactId` and `version`. It knows two modes:
 [Precompiled binaries](https://github.com/hpehl/mcup/releases) of mcup are available for Windows,
 macOS and Linux. 
 
-Shell completion files are available for Bash, Zsh, Fish, Elvish and PowerShell.
+Shell completion files are available for Bash, Zsh, Fish, Elvish and PowerShell. For Unix based systems a man page 
+is available as well. 
 
-If you're a Rust programmer, mcup can be installed with `cargo`.
+Support for various package managers is _wip_.
 
-- Note that the minimum supported version of Rust for mcup is **1.34.0**.
-- Note that the binary may be bigger than expected because it contains debug
-  symbols. This is intentional. To remove debug symbols and therefore reduce
-  the file size, run `strip` on the binary.
+If you're a Rust programmer, mcup can also be installed using `cargo`:
 
 ```
 $ cargo install mcup
