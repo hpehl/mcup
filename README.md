@@ -46,9 +46,7 @@ Selects snapshot artifacts only
 Does not remove artifacts
 
 `--list`  
-Prints the full path to the artifacts that will be removed. Normally `mcup` shows a progress bar while removing the selected artifacts. This flag disables the progress bar and prints the full path to the artifacts that will be removed.
-
-Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+Prints the full path to the artifacts that will be removed. Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
 ```shell
 mcup --dry-run --list --versions '3..' keep > artifacts.txt
@@ -63,20 +61,20 @@ Prints version information
 ### Options
 
 `-g, --groups <GROUPS>`  
-Selects artifacts based on the group ID. Subgroups are included by default. Subgroups are included by default.
+Selects artifacts based on the group ID. Subgroups are included by default.
 
 `-a, --artifacts <ARTIFACTS>`  
-Selects artifacts based on the artifact ID. Supports globbing like in `maven-*-plugin`.
+Selects artifacts based on the artifact ID. Supports globbing like in `maven-*-plugin` (see https://docs.rs/glob/0.3.0/glob/ for more details).
 
 `-v, --versions <VERSIONS>`  
 Selects artifacts based on version (ranges). Use `<n>..` to select the _n_ most recent versions, `..<n>` to select the _n_ oldest versions and `<version>` to select one specific _version_ only.
 
 `-l, --local-repository <LOCAL_REPOSITORY>`  
-Sets the location of the local maven repository. Respects the directory configured in `~/.m2/settings.xml`. Falls back to `~/.m2/repository`, if nothing has been specified or configured.
+Sets the location of the local maven repository. Respects the directory configured by `<localRepository/>` in `~/.m2/settings.xml`. Falls back to `~/.m2/repository`, if nothing has been specified or configured.
 
 ### Groups
 
-Subgroups are included by default:
+When selecting groups, subgroups are included by default:
 
 | Group | Selection |
 |---|---|
@@ -86,7 +84,7 @@ Subgroups are included by default:
 
 ### Artifacts
 
-Artifacts can be selected using globbing:
+Artifacts can be selected using globbing (see https://docs.rs/glob/0.3.0/glob/ for more details):
 
 | Artifact | Selection |
 |---|---|
@@ -95,7 +93,7 @@ Artifacts can be selected using globbing:
 
 ### Versions
 
-Versions can be selected using latest, oldest or exact version: 
+Versions can be selected using latest (`<n>..`), oldest (`..<n>`) or exact (`<version>`) version: 
 
 | Version | Selection |
 |---|---|

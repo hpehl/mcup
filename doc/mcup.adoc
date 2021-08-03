@@ -31,9 +31,7 @@ The mcup(1) command helps you to clean up your local repository. It uses filters
   Does not remove artifacts
 
 *--list*::
-  Prints the full path to the artifacts that will be removed. Normally mcup(1) shows a progress bar while removing the selected artifacts. This flag disables the progress bar and prints the full path to the artifacts that will be removed.
-+
-Use this flag together with _--dry-run_ to review or post-process artifacts that will be removed:
+  Prints the full path to the artifacts that will be removed. Use this flag together with _--dry-run_ to review or post-process artifacts that will be removed:
 +
     mcup --dry-run --list --versions '3..' keep > artifacts.txt
 
