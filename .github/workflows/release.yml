@@ -15,11 +15,10 @@
 
 name: release
 
-#on:
-#  push:
-#    tags:
-#      - 'v*'
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   create-release:
