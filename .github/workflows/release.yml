@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.release.outputs.upload_url }}
-      rg_version: ${{ env.MCUP_VERSION }}
+      mcup_version: ${{ env.MCUP_VERSION }}
     steps:
       - name: Get the release version from the tag
         shell: bash
