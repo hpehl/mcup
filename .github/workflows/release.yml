@@ -15,10 +15,11 @@
 
 name: release
 
-on:
-  push:
-    tags:
-      - 'v*'
+#on:
+#  push:
+#    tags:
+#      - 'v*'
+on: [push, pull_request]
 
 jobs:
   create-release:
@@ -111,19 +112,6 @@ jobs:
 
       - name: Build release binary
         run: ${{ env.CARGO }} build --release
-
-      - name: Strip release binary (linux and macos)
-        if: matrix.build == 'linux' || matrix.build == 'macos'
-        run: strip "${{ env.TARGET_DIR }}/release/mcup"
-
-      - name: Strip release binary (arm)
-        if: matrix.build == 'linux-arm'
-        run: |
-          docker run --rm -v \
-            "$PWD/target:/target:Z" \
-            rustembedded/cross:arm-unknown-linux-gnueabihf \
-            arm-linux-gnueabihf-strip \
-            /target/arm-unknown-linux-gnueabihf/release/mcup
 
       - name: Build archive
         shell: bash
