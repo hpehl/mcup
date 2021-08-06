@@ -6,10 +6,11 @@
 
 [Maven](https://maven.apache.org/) is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
 
-`mcup` helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates `groupId`, `artifactId` and `version`. It knows two modes:
+`mcup` helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates `groupId`, `artifactId` and `version`. It knows three modes:
 
 1. remove all artifacts selected by the filters and keep the rest
 2. keep all artifacts selected by the filters and remove the rest
+3. analyze and report the size of the artifacts selected by the filters
 
 ## Installation
 

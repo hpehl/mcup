@@ -18,6 +18,7 @@ The mcup(1) command helps you to clean up your local repository. It uses filters
 
 . remove all artifacts selected by the filters and keep the rest
 . keep all artifacts selected by the filters and remove the rest
+. analyze and report the size of the artifacts selected by the filters
 
 == FLAGS
 

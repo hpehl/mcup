@@ -4,6 +4,7 @@ use glob::Pattern;
 
 use crate::repo::{get_local_repo, process_local_repo};
 use crate::version::VersionRange;
+use clap::ArgMatches;
 
 mod app;
 mod artifact;
@@ -19,6 +20,7 @@ fn main() -> Result<()> {
         .mut_arg("artifacts", |arg| arg.validator(validate_artifacts))
         .mut_arg("versions", |arg| arg.validator(validate_versions))
         .get_matches();
+    validate_command(&args)?;
 
     let local_repo = get_local_repo(&args)?;
     if local_repo.exists() {
@@ -34,6 +36,23 @@ fn main() -> Result<()> {
             local_repo.display()
         )
     }
+}
+
+fn validate_command(args: &ArgMatches) -> Result<()> {
+    if args.subcommand_matches("keep").is_some() || args.subcommand_matches("rm").is_some() {
+        if !args.is_present("groups")
+            && !args.is_present("artifacts")
+            && !args.is_present("versions")
+            && !args.is_present("snapshots")
+            && !args.is_present("releases")
+        {
+            bail!(
+                "For subcommand '{}' at least one filter is required.",
+                args.subcommand_name().unwrap()
+            )
+        }
+    }
+    Ok(())
 }
 
 fn validate_artifacts(artifacts: &str) -> Result<(), String> {

@@ -13,6 +13,12 @@ _mcup() {
                 cmd="mcup"
                 ;;
             
+            du)
+                cmd+="__du"
+                ;;
+            help)
+                cmd+="__help"
+                ;;
             keep)
                 cmd+="__keep"
                 ;;
@@ -26,7 +32,7 @@ _mcup() {
 
     case "${cmd}" in
         mcup)
-            opts=" -g -a -v -r -s -d -l -h -V  --groups --artifacts --versions --releases --snapshots --dry-run --list --local-repository --help --version  keep rm"
+            opts=" -g -a -v -l -r -s -h -V  --groups --artifacts --versions --local-repository --releases --snapshots --help --version  keep rm du help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -73,7 +79,7 @@ _mcup() {
             return 0
             ;;
         
-        mcup__keep)
+        mcup__du)
             opts=" -h  --help  "
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -88,8 +94,38 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        mcup__help)
+            opts=" -h -V  --help --version  "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        mcup__keep)
+            opts=" -d -h  --dry-run --list --help  "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         mcup__rm)
-            opts=" -h  --help  "
+            opts=" -d -h  --dry-run --list --help  "
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

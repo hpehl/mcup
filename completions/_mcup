@@ -27,9 +27,6 @@ _mcup() {
 '(-s --snapshots)--releases[Selects released artifacts only]' \
 '(-r --releases)-s[Selects snapshot artifacts only]' \
 '(-r --releases)--snapshots[Selects snapshot artifacts only]' \
-'-d[Does not remove artifacts]' \
-'--dry-run[Does not remove artifacts]' \
-'--list[Prints the full path to the artifacts that will be removed]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -45,14 +42,34 @@ _mcup() {
         case $line[1] in
             (keep)
 _arguments "${_arguments_options[@]}" \
+'-d[Does not remove artifacts]' \
+'--dry-run[Does not remove artifacts]' \
+'--list[Prints the full path to the artifacts that will be removed]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 && ret=0
 ;;
 (rm)
 _arguments "${_arguments_options[@]}" \
+'-d[Does not remove artifacts]' \
+'--dry-run[Does not remove artifacts]' \
+'--list[Prints the full path to the artifacts that will be removed]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
+&& ret=0
+;;
+(du)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
 && ret=0
 ;;
         esac
@@ -65,8 +82,24 @@ _mcup_commands() {
     local commands; commands=(
         "keep:Keeps the artifacts matched by the filters and removes the rest" \
 "rm:Removes the artifacts matched by the filters and keeps the rest" \
+"du:Analyzes the size of the artifacts selected by the filters" \
+"help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'mcup commands' commands "$@"
+}
+(( $+functions[_mcup__du_commands] )) ||
+_mcup__du_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'mcup du commands' commands "$@"
+}
+(( $+functions[_mcup__help_commands] )) ||
+_mcup__help_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'mcup help commands' commands "$@"
 }
 (( $+functions[_mcup__keep_commands] )) ||
 _mcup__keep_commands() {

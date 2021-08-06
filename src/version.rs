@@ -5,8 +5,11 @@ use std::hash::Hash;
 use anyhow::{bail, Result};
 use clap::ArgMatches;
 
+use crate::artifact::Artifact;
+use crate::command::Command;
 use crate::version::ReleaseType::{Releases, Snapshots};
-use crate::version::VersionRange::Exact;
+use crate::version::VersionRange::{Exact, Latest, Oldest};
+use multimap::MultiMap;
 
 // Maven version number (unfortunately we cannot use SemVer here)
 #[derive(Debug, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
@@ -183,6 +186,27 @@ impl VersionRange {
                 }
             }
             Err(_) => bail!("Illegal version range: {}", version),
+        }
+    }
+
+    pub fn filter(&self, command: &Command, artifacts: Vec<Artifact>) -> Vec<Artifact> {
+        match self {
+            Latest(_) | Oldest(_) => {
+                let mut artifacts_by_ga: MultiMap<String, Artifact> = MultiMap::new();
+                for artifact in artifacts {
+                    let ga = format!("{}:{}", artifact.group_id, artifact.artifact_id);
+                    artifacts_by_ga.insert(ga, artifact);
+                }
+                let mut collect_removals: Vec<Artifact> = Vec::new();
+                for (_, artifacts_of_ga) in artifacts_by_ga.iter_all_mut() {
+                    artifacts_of_ga.sort_by(|a, b| b.version.cmp(&a.version));
+                    for artifact in command.select(self, artifacts_of_ga.as_slice()) {
+                        collect_removals.push(artifact.clone());
+                    }
+                }
+                collect_removals
+            }
+            _ => artifacts,
         }
     }
 }

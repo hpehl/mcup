@@ -3,7 +3,7 @@ use std::path::Path;
 use bit_vec::BitVec;
 use clap::ArgMatches;
 
-use Command::{Keep, Remove};
+use Command::{Du, Keep, Remove};
 
 use crate::artifact::{Artifact, ArtifactFilter};
 use crate::command::Command;
@@ -33,29 +33,33 @@ impl Filter {
         let mut conditions = BitVec::new();
         if let Some(artifact_filter) = &self.artifact_filter {
             conditions.push(match command {
-                Keep => !artifact_filter.match_artifact_id(artifact),
-                Remove => artifact_filter.match_artifact_id(artifact),
+                Keep(_, _) => !artifact_filter.match_artifact_id(artifact),
+                Remove(_, _) | Du => artifact_filter.match_artifact_id(artifact),
             });
         }
         // if let Exact(version) = version_range {
         if let Some(Exact(version)) = &self.version_range {
             conditions.push(match command {
-                Keep => *version != artifact.version,
-                Remove => *version == artifact.version,
+                Keep(_, _) => *version != artifact.version,
+                Remove(_, _) | Du => *version == artifact.version,
             });
         }
         if let Some(release_type) = &self.release_type {
             match release_type {
                 Releases => conditions.push(match command {
-                    Keep => artifact.version.snapshot,
-                    Remove => !artifact.version.snapshot,
+                    Keep(_, _) => artifact.version.snapshot,
+                    Remove(_, _) | Du => !artifact.version.snapshot,
                 }),
                 Snapshots => conditions.push(match command {
-                    Keep => !artifact.version.snapshot,
-                    Remove => artifact.version.snapshot,
+                    Keep(_, _) => !artifact.version.snapshot,
+                    Remove(_, _) | Du => artifact.version.snapshot,
                 }),
             }
         }
-        conditions.all()
+        if conditions.is_empty() {
+            true
+        } else {
+            conditions.all()
+        }
     }
 }

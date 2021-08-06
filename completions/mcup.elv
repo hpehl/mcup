@@ -27,23 +27,38 @@ edit:completion:arg-completer[mcup] = [@words]{
             cand --releases 'Selects released artifacts only'
             cand -s 'Selects snapshot artifacts only'
             cand --snapshots 'Selects snapshot artifacts only'
-            cand -d 'Does not remove artifacts'
-            cand --dry-run 'Does not remove artifacts'
-            cand --list 'Prints the full path to the artifacts that will be removed'
             cand -h 'Prints help information'
             cand --help 'Prints help information'
             cand -V 'Prints version information'
             cand --version 'Prints version information'
             cand keep 'Keeps the artifacts matched by the filters and removes the rest'
             cand rm 'Removes the artifacts matched by the filters and keeps the rest'
+            cand du 'Analyzes the size of the artifacts selected by the filters'
+            cand help 'Prints this message or the help of the given subcommand(s)'
         }
         &'mcup;keep'= {
+            cand -d 'Does not remove artifacts'
+            cand --dry-run 'Does not remove artifacts'
+            cand --list 'Prints the full path to the artifacts that will be removed'
             cand -h 'Prints help information'
             cand --help 'Prints help information'
         }
         &'mcup;rm'= {
+            cand -d 'Does not remove artifacts'
+            cand --dry-run 'Does not remove artifacts'
+            cand --list 'Prints the full path to the artifacts that will be removed'
             cand -h 'Prints help information'
             cand --help 'Prints help information'
+        }
+        &'mcup;du'= {
+            cand -h 'Prints help information'
+            cand --help 'Prints help information'
+        }
+        &'mcup;help'= {
+            cand -h 'Prints help information'
+            cand --help 'Prints help information'
+            cand -V 'Prints version information'
+            cand --version 'Prints version information'
         }
     ]
     $completions[$command]

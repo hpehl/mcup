@@ -9,7 +9,8 @@ use glob::Pattern;
 
 use crate::version::Version;
 
-#[derive(Debug, Clone)]
+// An artifact is a unique combination of GAV (group ID, artifact ID and version)
+#[derive(Clone, Debug)]
 pub struct Artifact {
     pub group_path: PathBuf,
     pub group_id: String,
@@ -17,6 +18,14 @@ pub struct Artifact {
     pub artifact_id: String,
     pub version_path: PathBuf,
     pub version: Version,
+}
+
+pub struct Group {
+    pub artifacts: Vec<Artifact>
+}
+
+pub struct Version2 {
+
 }
 
 impl Artifact {

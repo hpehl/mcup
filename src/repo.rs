@@ -1,5 +1,5 @@
 use std::ffi::OsStr;
-use std::fs::{remove_dir_all, File};
+use std::fs::{remove_dir_all, File, remove_dir};
 use std::io::BufReader;
 use std::path::{Path, PathBuf};
 use std::thread;
@@ -9,17 +9,15 @@ use anyhow::{Context, Result};
 use clap::ArgMatches;
 use directories::BaseDirs;
 use indicatif::{ProgressBar, ProgressStyle};
-use multimap::MultiMap;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use walkdir::{DirEntry, WalkDir};
 
 use crate::artifact::Artifact;
 use crate::command::Command;
-use crate::command::Command::{Keep, Remove};
+use crate::command::Command::{Du, Keep, Remove};
 use crate::filter::Filter;
 use crate::stats::Stats;
-use crate::version::VersionRange::{Latest, Oldest};
 
 const PROGRESS_BAR_THRESHOLD: usize = 5;
 
@@ -82,17 +80,16 @@ pub fn get_local_repo(args: &ArgMatches) -> Result<PathBuf> {
 pub fn process_local_repo(local_repo: &Path, args: &ArgMatches) -> Stats {
     let command = Command::from(args);
     let filter = Filter::from(local_repo, args);
-    let mut stats = Stats::start(args.is_present("dry-run"));
 
-    // collect artifacts
-    let removals = if let Some(group_filter) = &filter.group_filter {
+    // 1. collect artifacts
+    let artifacts = if let Some(group_filter) = &filter.group_filter {
         if filter.artifact_filter.is_none()
             && filter.version_range.is_none()
             && filter.release_type.is_none()
         {
             // groups only
             match command {
-                Keep => {
+                Keep(_, _) => {
                     // Remove everything that is not part of the specified (sub)groups
                     collect_artifacts(
                         local_repo,
@@ -100,8 +97,8 @@ pub fn process_local_repo(local_repo: &Path, args: &ArgMatches) -> Stats {
                         |_| true,
                     )
                 }
-                Remove => {
-                    // remove specified (sub)groups
+                Remove(_, _) | Du => {
+                    // remove or analyze specified (sub)groups
                     collect_artifacts(
                         local_repo,
                         |dir_entry| group_filter.subgroup_of(dir_entry),
@@ -130,35 +127,22 @@ pub fn process_local_repo(local_repo: &Path, args: &ArgMatches) -> Stats {
         )
     };
 
-    // filter version ranges
-    let removals = if let Some(version_range) = filter.version_range {
-        match version_range {
-            Latest(_) | Oldest(_) => {
-                let mut artifacts_by_ga: MultiMap<String, Artifact> = MultiMap::new();
-                for artifact in removals {
-                    let ga = format!("{}:{}", artifact.group_id, artifact.artifact_id);
-                    artifacts_by_ga.insert(ga, artifact);
-                }
-                let mut collect_removals: Vec<Artifact> = Vec::new();
-                for (_, artifacts_of_ga) in artifacts_by_ga.iter_all_mut() {
-                    artifacts_of_ga.sort_by(|a, b| b.version.cmp(&a.version));
-                    for artifact in command.removals(&version_range, artifacts_of_ga.as_slice()) {
-                        collect_removals.push(artifact.clone());
-                    }
-                }
-                collect_removals
-            }
-            _ => removals,
-        }
+    // 2. filter version ranges
+    let artifacts = if let Some(version_range) = filter.version_range {
+        version_range.filter(&command, artifacts)
     } else {
-        removals
+        artifacts
     };
 
-    // remove artifacts
-    stats.update(removals.as_slice());
-    let dry_run = args.is_present("dry-run");
-    let list = args.is_present("list");
-    remove_artifacts(removals.as_slice(), dry_run, list, &mut stats);
+    // 3. process artifacts
+    let mut stats = match command {
+        Keep(_, _) | Remove(_, _) => {
+            let stats = remove_artifacts(command, artifacts.as_slice());
+            remove_empty_dirs(artifacts.as_slice());
+            stats
+        }
+        Du => analyze_artifacts(command, artifacts.as_slice()),
+    };
 
     // done
     stats.finish();
@@ -210,7 +194,12 @@ where
     artifacts
 }
 
-fn remove_artifacts(artifacts: &[Artifact], dry_run: bool, list: bool, stats: &mut Stats) {
+fn remove_artifacts(command: Command, artifacts: &[Artifact]) -> Stats {
+    let mut stats = Stats::start(command.clone());
+    let (dry_run, list) = match command {
+        Keep(dry_run, list) | Remove(dry_run, list) => (dry_run, list),
+        Du => (false, false),
+    };
     let progress_bar = if !list && artifacts.len() > PROGRESS_BAR_THRESHOLD {
         Some(
             ProgressBar::new(artifacts.len() as u64)
@@ -226,7 +215,8 @@ fn remove_artifacts(artifacts: &[Artifact], dry_run: bool, list: bool, stats: &m
     };
 
     for artifact in artifacts {
-        stats.bytes(artifact);
+        stats.add_artifact(artifact);
+
         if let Some(progress_bar) = &progress_bar {
             progress_bar.inc(1);
         }
@@ -242,7 +232,7 @@ fn remove_artifacts(artifacts: &[Artifact], dry_run: bool, list: bool, stats: &m
             }
         } else if let Err(error) = remove_dir_all(artifact.version_path.as_path()) {
             if let Some(path) = artifact.version_path.as_path().to_str() {
-                stats.error(path.to_string(), error.to_string());
+                stats.add_error(path.to_string(), error.to_string());
             }
         }
     }
@@ -250,4 +240,22 @@ fn remove_artifacts(artifacts: &[Artifact], dry_run: bool, list: bool, stats: &m
     if let Some(progress_bar) = &progress_bar {
         progress_bar.finish_and_clear();
     }
+    stats
+}
+
+fn remove_empty_dirs(artifacts: &[Artifact]) {
+    for artifact in artifacts {
+        // ignore errors, if dir doesn't exist / is not empty
+        let _ = remove_dir(artifact.version_path.as_path());
+        let _ = remove_dir(artifact.artifact_path.as_path());
+        let _ = remove_dir(artifact.group_path.as_path());
+    }
+}
+
+fn analyze_artifacts(command: Command, artifacts: &[Artifact]) -> Stats {
+    let mut stats = Stats::start(command.clone());
+    for artifact in artifacts {
+        stats.add_artifact(artifact);
+    }
+    stats
 }
