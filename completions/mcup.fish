@@ -16,6 +16,7 @@ complete -c mcup -n "__fish_seen_subcommand_from keep" -s h -l help -d 'Prints h
 complete -c mcup -n "__fish_seen_subcommand_from rm" -s d -l dry-run -d 'Does not remove artifacts'
 complete -c mcup -n "__fish_seen_subcommand_from rm" -l list -d 'Prints the full path to the artifacts that will be removed'
 complete -c mcup -n "__fish_seen_subcommand_from rm" -s h -l help -d 'Prints help information'
+complete -c mcup -n "__fish_seen_subcommand_from du" -s o -l output -d 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary' -r
 complete -c mcup -n "__fish_seen_subcommand_from du" -s h -l help -d 'Prints help information'
 complete -c mcup -n "__fish_seen_subcommand_from help" -s h -l help -d 'Prints help information'
 complete -c mcup -n "__fish_seen_subcommand_from help" -s V -l version -d 'Prints version information'

@@ -60,6 +60,8 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (du)
 _arguments "${_arguments_options[@]}" \
+'-o+[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]' \
+'--output=[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 && ret=0

@@ -1,73 +1,42 @@
-use fmt::Display;
-use std::fmt;
-use std::fmt::Formatter;
+use std::collections::BTreeMap;
+use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
 
-use anyhow::{Context, Result};
 use clap::ArgMatches;
 use glob::Pattern;
 
 use crate::version::Version;
 
-// An artifact is a unique combination of GAV (group ID, artifact ID and version)
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct Artifact {
-    pub group_path: PathBuf,
-    pub group_id: String,
-    pub artifact_path: PathBuf,
-    pub artifact_id: String,
-    pub version_path: PathBuf,
-    pub version: Version,
-}
-
-pub struct Group {
-    pub artifacts: Vec<Artifact>
-}
-
-pub struct Version2 {
-
+    pub id: String,
+    pub path: PathBuf,
+    pub versions: BTreeMap<Version, Version>,
+    pub bytes: u64,
 }
 
 impl Artifact {
-    pub fn from<'a>(local_repo: &'a Path, pom: &'a Path) -> Result<Artifact> {
-        let version_path = pom.parent().with_context(|| "No version path")?;
-        let version = Version::parse(
-            version_path
-                .file_name()
-                .with_context(|| "No version")?
-                .to_str()
-                .with_context(|| "No version")?,
-        )?;
-
-        let artifact_path = version_path.parent().with_context(|| "No artifact path")?;
-        let artifact_id = artifact_path
-            .file_name()
-            .with_context(|| "No artifact ID")?
-            .to_str()
-            .with_context(|| "No artifact ID")?;
-
-        let group_path = artifact_path.parent().with_context(|| "No group path")?;
-        let group_id = group_path
-            .strip_prefix(local_repo)?
-            .components()
-            .map(|c| c.as_os_str().to_str().unwrap_or(""))
-            .collect::<Vec<&'a str>>()
-            .join(".");
-
-        Ok(Artifact {
-            group_path: group_path.to_path_buf(),
-            group_id,
-            artifact_path: artifact_path.to_path_buf(),
-            artifact_id: artifact_id.to_string(),
-            version_path: version_path.to_path_buf(),
-            version,
-        })
+    pub fn new(id: &str, path: &Path) -> Artifact {
+        Artifact {
+            id: id.to_string(),
+            path: path.to_path_buf(),
+            versions: BTreeMap::new(),
+            bytes: 0,
+        }
     }
 }
 
+impl PartialEq for Artifact {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+
+impl Eq for Artifact {}
+
 impl Display for Artifact {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{}:{}:{}", self.group_id, self.artifact_id, self.version)
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.id)
     }
 }
 
@@ -82,9 +51,9 @@ impl ArtifactFilter {
         })
     }
 
-    pub fn match_artifact_id(&self, artifact: &Artifact) -> bool {
+    pub fn match_artifact_id(&self, artifact_id: &str) -> bool {
         if let Ok(pattern) = Pattern::new(self.artifacts.as_str()) {
-            pattern.matches(artifact.artifact_id.as_str())
+            pattern.matches(artifact_id)
         } else {
             false
         }

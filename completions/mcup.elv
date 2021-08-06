@@ -51,6 +51,8 @@ edit:completion:arg-completer[mcup] = [@words]{
             cand --help 'Prints help information'
         }
         &'mcup;du'= {
+            cand -o 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary'
+            cand --output 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary'
             cand -h 'Prints help information'
             cand --help 'Prints help information'
         }

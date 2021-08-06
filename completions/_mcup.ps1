@@ -59,6 +59,8 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             break
         }
         'mcup;du' {
+            [CompletionResult]::new('-o', 'o', [CompletionResultType]::ParameterName, 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary')
+            [CompletionResult]::new('--output', 'output', [CompletionResultType]::ParameterName, 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary')
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Prints help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Prints help information')
             break

@@ -1,29 +1,44 @@
+use fmt::Display;
+use std::cmp::min;
 use std::fmt;
 use std::fmt::Formatter;
-use std::hash::Hash;
+use std::path::{Path, PathBuf};
 
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 use clap::ArgMatches;
 
-use crate::artifact::Artifact;
 use crate::command::Command;
+use crate::command::Command::{Keep, Remove};
 use crate::version::ReleaseType::{Releases, Snapshots};
 use crate::version::VersionRange::{Exact, Latest, Oldest};
-use multimap::MultiMap;
+use std::hash::{Hash, Hasher};
 
 // Maven version number (unfortunately we cannot use SemVer here)
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Debug, Clone, Ord, PartialOrd)]
 pub struct Version {
     pub major: Option<u32>,
     pub minor: Option<u32>,
     pub patch: Option<u32>,
     pub qualifier: Option<String>,
     pub snapshot: bool,
+    pub path: PathBuf,
+    pub bytes: u64,
 }
 
 impl Version {
+    pub fn from_path(path: &Path) -> Result<Version> {
+        let version = path
+            .file_name()
+            .with_context(|| "No version")?
+            .to_str()
+            .with_context(|| "No version")?;
+        let mut version = Version::from_str(version)?;
+        version.path = path.to_path_buf();
+        Ok(version)
+    }
+
     //noinspection DuplicatedCode
-    pub fn parse(version: &str) -> Result<Version> {
+    pub fn from_str(version: &str) -> Result<Version> {
         let input = version;
         let (version, snapshot) = match version.strip_suffix("-SNAPSHOT") {
             Some(ver) => (ver, true),
@@ -118,13 +133,37 @@ impl Version {
                 patch: mmp[2],
                 qualifier: qual,
                 snapshot,
+                path: PathBuf::new(),
+                bytes: 0,
             }),
             None => bail!("Invalid version: '{}'", input),
         }
     }
 }
 
-impl fmt::Display for Version {
+impl PartialEq for Version {
+    fn eq(&self, other: &Self) -> bool {
+        self.major == other.major
+            && self.minor == other.minor
+            && self.patch == other.patch
+            && self.qualifier == other.qualifier
+            && self.snapshot == other.snapshot
+    }
+}
+
+impl Eq for Version {}
+
+impl Hash for Version {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.major.hash(state);
+        self.minor.hash(state);
+        self.patch.hash(state);
+        self.qualifier.hash(state);
+        self.snapshot.hash(state);
+    }
+}
+
+impl Display for Version {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if let Some(i) = self.major {
             write!(f, "{}", i)?;
@@ -164,7 +203,7 @@ impl VersionRange {
         } else if let Some(count) = version.strip_prefix("..") {
             VersionRange::extract_versions(version, count, VersionRange::Oldest)
         } else {
-            match Version::parse(version) {
+            match Version::from_str(version) {
                 Ok(v) => Ok(Exact(v)),
                 Err(e) => bail!("{}", e),
             }
@@ -189,29 +228,42 @@ impl VersionRange {
         }
     }
 
-    pub fn filter(&self, command: &Command, artifacts: Vec<Artifact>) -> Vec<Artifact> {
-        match self {
-            Latest(_) | Oldest(_) => {
-                let mut artifacts_by_ga: MultiMap<String, Artifact> = MultiMap::new();
-                for artifact in artifacts {
-                    let ga = format!("{}:{}", artifact.group_id, artifact.artifact_id);
-                    artifacts_by_ga.insert(ga, artifact);
+    // Select elements from the slice according to the version range and command
+    pub fn removals<'a, T>(&self, command: &Command, slice: &'a [T]) -> &'a [T] {
+        match (command, self) {
+            (Keep(_, _), Latest(n)) => {
+                if *n >= slice.len() {
+                    &[]
+                } else {
+                    slice[*n..].as_ref()
                 }
-                let mut collect_removals: Vec<Artifact> = Vec::new();
-                for (_, artifacts_of_ga) in artifacts_by_ga.iter_all_mut() {
-                    artifacts_of_ga.sort_by(|a, b| b.version.cmp(&a.version));
-                    for artifact in command.select(self, artifacts_of_ga.as_slice()) {
-                        collect_removals.push(artifact.clone());
-                    }
-                }
-                collect_removals
             }
-            _ => artifacts,
+            (Remove(_, _), Latest(n)) => {
+                let n = min(*n, slice.len());
+                slice[0..n].as_ref()
+            }
+            (Keep(_, _), Oldest(n)) => {
+                if *n > slice.len() {
+                    &[]
+                } else {
+                    let n = slice.len() - n;
+                    slice[0..n].as_ref()
+                }
+            }
+            (Remove(_, _), Oldest(n)) => {
+                if *n > slice.len() {
+                    slice
+                } else {
+                    let n = slice.len() - *n;
+                    slice[n..].as_ref()
+                }
+            }
+            (_, _) => slice,
         }
     }
 }
 
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum ReleaseType {
     Releases,
     Snapshots,
@@ -235,22 +287,22 @@ mod version_tests {
 
     #[test]
     fn invalid_version() {
-        assert!(Version::parse("").is_err());
-        assert!(Version::parse(".").is_err());
-        assert!(Version::parse("..").is_err());
-        assert!(Version::parse("-").is_err());
-        assert!(Version::parse("--").is_err());
-        assert!(Version::parse(".-").is_err());
-        assert!(Version::parse("-.").is_err());
-        assert!(Version::parse("1a").is_err());
-        assert!(Version::parse("a").is_err());
-        assert!(Version::parse("a.b").is_err());
-        assert!(Version::parse("a-c").is_err());
-        assert!(Version::parse("-SNAPSHOT").is_err());
-        assert!(Version::parse("--SNAPSHOT").is_err());
-        assert!(Version::parse("1SNAPSHOT").is_err());
-        assert!(Version::parse("xSNAPSHOT").is_err());
-        assert!(Version::parse("x-SNAPSHOT").is_err());
+        assert!(Version::from_str("").is_err());
+        assert!(Version::from_str(".").is_err());
+        assert!(Version::from_str("..").is_err());
+        assert!(Version::from_str("-").is_err());
+        assert!(Version::from_str("--").is_err());
+        assert!(Version::from_str(".-").is_err());
+        assert!(Version::from_str("-.").is_err());
+        assert!(Version::from_str("1a").is_err());
+        assert!(Version::from_str("a").is_err());
+        assert!(Version::from_str("a.b").is_err());
+        assert!(Version::from_str("a-c").is_err());
+        assert!(Version::from_str("-SNAPSHOT").is_err());
+        assert!(Version::from_str("--SNAPSHOT").is_err());
+        assert!(Version::from_str("1SNAPSHOT").is_err());
+        assert!(Version::from_str("xSNAPSHOT").is_err());
+        assert!(Version::from_str("x-SNAPSHOT").is_err());
     }
 
     #[test]
@@ -298,39 +350,39 @@ mod version_tests {
     #[test]
     fn version_order() {
         let mut versions = vec![
-            Version::parse("1").unwrap(),
-            Version::parse("2").unwrap(),
-            Version::parse("1.0").unwrap(),
-            Version::parse("1.1").unwrap(),
-            Version::parse("1.2").unwrap(),
-            Version::parse("1.3").unwrap(),
-            Version::parse("1.0.0").unwrap(),
-            Version::parse("1.0.1").unwrap(),
-            Version::parse("1.0.2").unwrap(),
-            Version::parse("1.0.3").unwrap(),
-            Version::parse("1.0.0.Alpha").unwrap(),
-            Version::parse("1.0.0-Beta").unwrap(),
-            Version::parse("1.0.0.Final").unwrap(),
-            Version::parse("1.0.0-SNAPSHOT").unwrap(),
+            Version::from_str("1").unwrap(),
+            Version::from_str("2").unwrap(),
+            Version::from_str("1.0").unwrap(),
+            Version::from_str("1.1").unwrap(),
+            Version::from_str("1.2").unwrap(),
+            Version::from_str("1.3").unwrap(),
+            Version::from_str("1.0.0").unwrap(),
+            Version::from_str("1.0.1").unwrap(),
+            Version::from_str("1.0.2").unwrap(),
+            Version::from_str("1.0.3").unwrap(),
+            Version::from_str("1.0.0.Alpha").unwrap(),
+            Version::from_str("1.0.0-Beta").unwrap(),
+            Version::from_str("1.0.0.Final").unwrap(),
+            Version::from_str("1.0.0-SNAPSHOT").unwrap(),
         ];
 
         versions.sort();
         assert_eq!(
             vec![
-                Version::parse("1").unwrap(),
-                Version::parse("1.0").unwrap(),
-                Version::parse("1.0.0").unwrap(),
-                Version::parse("1.0.0-SNAPSHOT").unwrap(),
-                Version::parse("1.0.0.Alpha").unwrap(),
-                Version::parse("1.0.0-Beta").unwrap(),
-                Version::parse("1.0.0.Final").unwrap(),
-                Version::parse("1.0.1").unwrap(),
-                Version::parse("1.0.2").unwrap(),
-                Version::parse("1.0.3").unwrap(),
-                Version::parse("1.1").unwrap(),
-                Version::parse("1.2").unwrap(),
-                Version::parse("1.3").unwrap(),
-                Version::parse("2").unwrap(),
+                Version::from_str("1").unwrap(),
+                Version::from_str("1.0").unwrap(),
+                Version::from_str("1.0.0").unwrap(),
+                Version::from_str("1.0.0-SNAPSHOT").unwrap(),
+                Version::from_str("1.0.0.Alpha").unwrap(),
+                Version::from_str("1.0.0-Beta").unwrap(),
+                Version::from_str("1.0.0.Final").unwrap(),
+                Version::from_str("1.0.1").unwrap(),
+                Version::from_str("1.0.2").unwrap(),
+                Version::from_str("1.0.3").unwrap(),
+                Version::from_str("1.1").unwrap(),
+                Version::from_str("1.2").unwrap(),
+                Version::from_str("1.3").unwrap(),
+                Version::from_str("2").unwrap(),
             ],
             versions
         );
@@ -344,7 +396,7 @@ mod version_tests {
         qualifier: Option<&str>,
         snapshot: bool,
     ) {
-        let v = Version::parse(version).expect("Invalid version");
+        let v = Version::from_str(version).expect("Invalid version");
         assert_eq!(major, v.major);
         assert_eq!(minor, v.minor);
         assert_eq!(incremental, v.patch);
@@ -355,6 +407,7 @@ mod version_tests {
 
 #[cfg(test)]
 mod version_range_tests {
+    use crate::command::Command::{Keep, Remove};
     use crate::version::VersionRange::{Exact, Latest, Oldest};
     use crate::version::{Version, VersionRange};
 
@@ -390,7 +443,101 @@ mod version_range_tests {
 
     #[test]
     fn parse_exact() {
-        let version = Version::parse("1.2.3").unwrap();
+        let version = Version::from_str("1.2.3").unwrap();
         assert_eq!(Exact(version), VersionRange::parse("1.2.3").unwrap());
+    }
+
+    #[test]
+    fn keep_latest() {
+        let versions = vec![4, 3, 2, 1];
+
+        assert_eq!(
+            vec![3, 2, 1],
+            Latest(1).removals(&Keep(false, false), &versions)
+        );
+        assert_eq!(
+            vec![2, 1],
+            Latest(2).removals(&Keep(false, false), &versions)
+        );
+        assert_eq!(vec![1], Latest(3).removals(&Keep(false, false), &versions));
+        assert!(Latest(4)
+            .removals(&Keep(false, false), &versions)
+            .is_empty());
+        assert!(Latest(5)
+            .removals(&Keep(false, false), &versions)
+            .is_empty());
+    }
+
+    #[test]
+    fn keep_oldest() {
+        let versions = vec![4, 3, 2, 1];
+
+        assert_eq!(
+            vec![4, 3, 2],
+            Oldest(1).removals(&Keep(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3],
+            Oldest(2).removals(&Keep(false, false), &versions)
+        );
+        assert_eq!(vec![4], Oldest(3).removals(&Keep(false, false), &versions));
+        assert!(Oldest(4)
+            .removals(&Keep(false, false), &versions)
+            .is_empty());
+        assert!(Oldest(5)
+            .removals(&Keep(false, false), &versions)
+            .is_empty());
+    }
+
+    #[test]
+    fn remove_latest() {
+        let versions = vec![4, 3, 2, 1];
+
+        assert_eq!(
+            vec![4],
+            Latest(1).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3],
+            Latest(2).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3, 2],
+            Latest(3).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3, 2, 1],
+            Latest(4).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3, 2, 1],
+            Latest(5).removals(&Remove(false, false), &versions)
+        );
+    }
+
+    #[test]
+    fn remove_oldest() {
+        let versions = vec![4, 3, 2, 1];
+
+        assert_eq!(
+            vec![1],
+            Oldest(1).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![2, 1],
+            Oldest(2).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![3, 2, 1],
+            Oldest(3).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3, 2, 1],
+            Oldest(4).removals(&Remove(false, false), &versions)
+        );
+        assert_eq!(
+            vec![4, 3, 2, 1],
+            Oldest(5).removals(&Remove(false, false), &versions)
+        );
     }
 }

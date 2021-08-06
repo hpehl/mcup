@@ -5,9 +5,10 @@ use clap::ArgMatches;
 
 use Command::{Du, Keep, Remove};
 
-use crate::artifact::{Artifact, ArtifactFilter};
+use crate::artifact::ArtifactFilter;
 use crate::command::Command;
 use crate::group::GroupFilter;
+use crate::repo::Gav;
 use crate::version::ReleaseType::{Releases, Snapshots};
 use crate::version::VersionRange::Exact;
 use crate::version::{ReleaseType, VersionRange};
@@ -29,30 +30,32 @@ impl Filter {
         }
     }
 
-    pub fn conjunction(&self, artifact: &Artifact, command: &Command) -> bool {
+    pub fn conjunction(&self, gav: &Gav, command: &Command) -> bool {
         let mut conditions = BitVec::new();
         if let Some(artifact_filter) = &self.artifact_filter {
             conditions.push(match command {
-                Keep(_, _) => !artifact_filter.match_artifact_id(artifact),
-                Remove(_, _) | Du => artifact_filter.match_artifact_id(artifact),
+                Keep(_, _) => !artifact_filter.match_artifact_id(gav.artifact.id.as_str()),
+                Remove(_, _) | Du(_, _, _) => {
+                    artifact_filter.match_artifact_id(gav.artifact.id.as_str())
+                }
             });
         }
         // if let Exact(version) = version_range {
         if let Some(Exact(version)) = &self.version_range {
             conditions.push(match command {
-                Keep(_, _) => *version != artifact.version,
-                Remove(_, _) | Du => *version == artifact.version,
+                Keep(_, _) => *version != gav.version,
+                Remove(_, _) | Du(_, _, _) => *version == gav.version,
             });
         }
         if let Some(release_type) = &self.release_type {
             match release_type {
                 Releases => conditions.push(match command {
-                    Keep(_, _) => artifact.version.snapshot,
-                    Remove(_, _) | Du => !artifact.version.snapshot,
+                    Keep(_, _) => gav.version.snapshot,
+                    Remove(_, _) | Du(_, _, _) => !gav.version.snapshot,
                 }),
                 Snapshots => conditions.push(match command {
-                    Keep(_, _) => !artifact.version.snapshot,
-                    Remove(_, _) | Du => artifact.version.snapshot,
+                    Keep(_, _) => !gav.version.snapshot,
+                    Remove(_, _) | Du(_, _, _) => gav.version.snapshot,
                 }),
             }
         }
