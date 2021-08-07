@@ -43,7 +43,7 @@ pub fn du(repository: &Repository, groups: bool, artifacts: bool, versions: bool
 
     print_bytes(
         repository.bytes,
-        &repository.path.display().to_string().as_str(),
+        repository.path.display().to_string().as_str(),
         &cyan_bold,
     );
 
@@ -85,17 +85,15 @@ pub fn du(repository: &Repository, groups: bool, artifacts: bool, versions: bool
                         } else {
                             format!("{}:{}", artifact.id.clone(), version.to_string().clone())
                         }
+                    } else if artifacts {
+                        version.to_string().clone()
                     } else {
-                        if artifacts {
-                            version.to_string().clone()
-                        } else {
-                            format!(
-                                "{}:{}:{}",
-                                group.id.clone(),
-                                artifact.id.clone(),
-                                version.to_string()
-                            )
-                        }
+                        format!(
+                            "{}:{}:{}",
+                            group.id.clone(),
+                            artifact.id.clone(),
+                            version.to_string()
+                        )
                     };
                     print_bytes(version.bytes, name.as_str(), &yellow);
                 }
