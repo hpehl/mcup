@@ -7,6 +7,8 @@ use glob::Pattern;
 
 use crate::version::Version;
 
+// ------------------------------------------------------ artifact
+
 #[derive(Debug)]
 pub struct Artifact {
     pub id: String,
@@ -39,6 +41,8 @@ impl Display for Artifact {
         write!(f, "{}", self.id)
     }
 }
+
+// ------------------------------------------------------ artifact filter
 
 pub struct ArtifactFilter {
     pub artifacts: String,

@@ -7,6 +7,8 @@ use walkdir::DirEntry;
 
 use crate::artifact::Artifact;
 
+// ------------------------------------------------------ group
+
 #[derive(Debug)]
 pub struct Group {
     pub id: String,
@@ -39,6 +41,8 @@ impl Display for Group {
         write!(f, "{}", self.id)
     }
 }
+
+// ------------------------------------------------------ group filter
 
 pub struct GroupFilter {
     pub group_id: String,

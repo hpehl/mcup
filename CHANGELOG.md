@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - unreleased
+Added `du` subcommand to analyze the disk usage of the selected groups, artifacts and versions.
+Moved `dry-run` and `--list` flags to `keep` and `rm` subcommands
+
 ## [0.1.0] - 2021-08-03
 First public release
 
@@ -29,3 +33,4 @@ First public release
 - in case of vulnerabilities
 
 [0.1.0]: https://github.com/hpehl/mcup/releases/tag/v0.1.0
+[0.2.0]: https://github.com/hpehl/mcup/compare/v0.1.0...v0.2.0

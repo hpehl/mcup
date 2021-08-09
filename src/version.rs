@@ -13,6 +13,8 @@ use crate::version::ReleaseType::{Releases, Snapshots};
 use crate::version::VersionRange::{Exact, Latest, Oldest};
 use std::hash::{Hash, Hasher};
 
+// ------------------------------------------------------ version
+
 // Maven version number (unfortunately we cannot use SemVer here)
 #[derive(Debug, Clone, Ord, PartialOrd)]
 pub struct Version {
@@ -181,6 +183,8 @@ impl Display for Version {
     }
 }
 
+// ------------------------------------------------------ version range
+
 #[derive(Debug, Eq, PartialEq)]
 pub enum VersionRange {
     Latest(usize),
@@ -263,6 +267,8 @@ impl VersionRange {
     }
 }
 
+// ------------------------------------------------------ release type
+
 #[derive(Debug, PartialEq)]
 pub enum ReleaseType {
     Releases,
@@ -280,6 +286,8 @@ impl ReleaseType {
         }
     }
 }
+
+// ------------------------------------------------------ version tests
 
 #[cfg(test)]
 mod version_tests {
@@ -404,6 +412,8 @@ mod version_tests {
         assert_eq!(snapshot, v.snapshot);
     }
 }
+
+// ------------------------------------------------------ version range tests
 
 #[cfg(test)]
 mod version_range_tests {

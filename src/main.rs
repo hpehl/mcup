@@ -7,8 +7,8 @@ use app::build_app;
 use crate::command::Command;
 use crate::filter::Filter;
 use crate::repo::Repository;
-use crate::stats::{du, summary};
 use crate::version::VersionRange;
+use console::style;
 
 mod app;
 mod artifact;
@@ -16,8 +16,10 @@ mod command;
 mod filter;
 mod group;
 mod repo;
-mod stats;
 mod version;
+
+#[macro_use]
+extern crate lazy_static;
 
 fn main() -> Result<()> {
     let args = build_app()
@@ -29,18 +31,11 @@ fn main() -> Result<()> {
     let mut local_repo = Repository::locate(&args)?;
     if local_repo.exists() {
         let command = Command::from(&args);
-        let filter = Filter::from(local_repo.path.as_path(), &args);
+        let filter = Filter::from(&args, local_repo.path.as_path());
         let duration = local_repo.process(&command, &filter);
         if atty::is(atty::Stream::Stdout) {
             println!();
-            match command {
-                Command::Keep(dry_run, _) | Command::Remove(dry_run, _) => {
-                    summary(&local_repo, duration, dry_run);
-                }
-                Command::Du(groups, artifacts, versions) => {
-                    du(&local_repo, groups, artifacts, versions);
-                }
-            }
+            command.summary(&local_repo, duration);
         }
         Ok(())
     } else {
@@ -51,6 +46,8 @@ fn main() -> Result<()> {
     }
 }
 
+// ------------------------------------------------------ validation
+
 fn validate_command(args: &ArgMatches) -> Result<()> {
     if (args.subcommand_matches("keep").is_some() || args.subcommand_matches("rm").is_some())
         && !args.is_present("groups")
@@ -60,8 +57,14 @@ fn validate_command(args: &ArgMatches) -> Result<()> {
         && !args.is_present("releases")
     {
         bail!(
-            "For subcommand '{}' at least one filter is required.",
-            args.subcommand_name().unwrap()
+            r#"Subcommand {} requires a filter, but one was not provided
+
+USAGE:
+    mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
+
+For more information try {}"#,
+            style(format!("'{}'", args.subcommand_name().unwrap())).yellow(),
+            style("--help").green()
         )
     }
     Ok(())

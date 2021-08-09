@@ -21,7 +21,7 @@ pub struct Filter {
 }
 
 impl Filter {
-    pub fn from(local_repo: &Path, args: &ArgMatches) -> Filter {
+    pub fn from(args: &ArgMatches, local_repo: &Path) -> Filter {
         Filter {
             group_filter: GroupFilter::from(args, local_repo),
             artifact_filter: ArtifactFilter::from(args),
@@ -30,6 +30,7 @@ impl Filter {
         }
     }
 
+    // combine given filters with &&
     pub fn conjunction(&self, gav: &Gav, command: &Command) -> bool {
         let mut conditions = BitVec::new();
         if let Some(artifact_filter) = &self.artifact_filter {

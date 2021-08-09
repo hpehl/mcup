@@ -23,6 +23,8 @@ use crate::version::{Version, VersionRange};
 
 const PROGRESS_BAR_THRESHOLD: usize = 5;
 
+// ------------------------------------------------------ repo
+
 #[derive(Debug)]
 pub struct Repository {
     pub path: PathBuf,
@@ -30,13 +32,6 @@ pub struct Repository {
     pub artifacts: usize,
     pub versions: usize,
     pub bytes: u64,
-}
-
-#[derive(Debug)]
-pub struct Gav {
-    pub group: Group,
-    pub artifact: Artifact,
-    pub version: Version,
 }
 
 impl Repository {
@@ -108,6 +103,10 @@ impl Repository {
 
     pub fn exists(&self) -> bool {
         self.path.exists()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.groups.is_empty()
     }
 
     pub fn process(&mut self, command: &Command, filter: &Filter) -> Duration {
@@ -365,6 +364,15 @@ impl Repository {
             let _ = remove_dir(group.path.as_path());
         }
     }
+}
+
+// ------------------------------------------------------ GAV
+
+#[derive(Debug)]
+pub struct Gav {
+    pub group: Group,
+    pub artifact: Artifact,
+    pub version: Version,
 }
 
 impl Display for Gav {

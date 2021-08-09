@@ -213,6 +213,7 @@ dependencies = [
  "directories",
  "glob",
  "indicatif",
+ "lazy_static",
  "quick-xml",
  "walkdir",
 ]
