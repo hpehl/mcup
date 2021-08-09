@@ -354,7 +354,7 @@ fn size_and_text(size: u64, text: &str, style: &Style) {
     dim("│");
     size_pad(size, style);
     dim("│");
-    text_pad(text, TEXT_COLUMN, &style);
+    text_pad(text, TEXT_COLUMN, style);
     dim("│");
     println!();
 }
