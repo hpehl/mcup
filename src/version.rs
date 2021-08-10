@@ -7,8 +7,6 @@ use std::path::{Path, PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::ArgMatches;
 
-use crate::command::Command;
-use crate::command::Command::{Keep, Remove};
 use crate::version::ReleaseType::{Releases, Snapshots};
 use crate::version::VersionRange::{Exact, Latest, Oldest};
 use std::hash::{Hash, Hasher};
@@ -232,29 +230,14 @@ impl VersionRange {
         }
     }
 
-    // Select elements from the slice according to the version range and command
-    pub fn removals<'a, T>(&self, command: &Command, slice: &'a [T]) -> &'a [T] {
-        match (command, self) {
-            (Keep(_, _), Latest(n)) => {
-                if *n >= slice.len() {
-                    &[]
-                } else {
-                    slice[*n..].as_ref()
-                }
-            }
-            (Remove(_, _), Latest(n)) => {
+    // Select elements from the slice according to the version range
+    pub fn select<'a, T>(&self, slice: &'a [T]) -> &'a [T] {
+        match self {
+            Latest(n) => {
                 let n = min(*n, slice.len());
                 slice[0..n].as_ref()
             }
-            (Keep(_, _), Oldest(n)) => {
-                if *n > slice.len() {
-                    &[]
-                } else {
-                    let n = slice.len() - n;
-                    slice[0..n].as_ref()
-                }
-            }
-            (Remove(_, _), Oldest(n)) => {
+            Oldest(n) => {
                 if *n > slice.len() {
                     slice
                 } else {
@@ -262,7 +245,7 @@ impl VersionRange {
                     slice[n..].as_ref()
                 }
             }
-            (_, _) => slice,
+            _ => slice,
         }
     }
 }
@@ -458,96 +441,24 @@ mod version_range_tests {
     }
 
     #[test]
-    fn keep_latest() {
+    fn select_latest() {
         let versions = vec![4, 3, 2, 1];
 
-        assert_eq!(
-            vec![3, 2, 1],
-            Latest(1).removals(&Keep(false, false), &versions)
-        );
-        assert_eq!(
-            vec![2, 1],
-            Latest(2).removals(&Keep(false, false), &versions)
-        );
-        assert_eq!(vec![1], Latest(3).removals(&Keep(false, false), &versions));
-        assert!(Latest(4)
-            .removals(&Keep(false, false), &versions)
-            .is_empty());
-        assert!(Latest(5)
-            .removals(&Keep(false, false), &versions)
-            .is_empty());
+        assert_eq!(vec![4], Latest(1).select(&versions));
+        assert_eq!(vec![4, 3], Latest(2).select(&versions));
+        assert_eq!(vec![4, 3, 2], Latest(3).select(&versions));
+        assert_eq!(vec![4, 3, 2, 1], Latest(4).select(&versions));
+        assert_eq!(vec![4, 3, 2, 1], Latest(5).select(&versions));
     }
 
     #[test]
-    fn keep_oldest() {
+    fn select_oldest() {
         let versions = vec![4, 3, 2, 1];
 
-        assert_eq!(
-            vec![4, 3, 2],
-            Oldest(1).removals(&Keep(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3],
-            Oldest(2).removals(&Keep(false, false), &versions)
-        );
-        assert_eq!(vec![4], Oldest(3).removals(&Keep(false, false), &versions));
-        assert!(Oldest(4)
-            .removals(&Keep(false, false), &versions)
-            .is_empty());
-        assert!(Oldest(5)
-            .removals(&Keep(false, false), &versions)
-            .is_empty());
-    }
-
-    #[test]
-    fn remove_latest() {
-        let versions = vec![4, 3, 2, 1];
-
-        assert_eq!(
-            vec![4],
-            Latest(1).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3],
-            Latest(2).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3, 2],
-            Latest(3).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3, 2, 1],
-            Latest(4).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3, 2, 1],
-            Latest(5).removals(&Remove(false, false), &versions)
-        );
-    }
-
-    #[test]
-    fn remove_oldest() {
-        let versions = vec![4, 3, 2, 1];
-
-        assert_eq!(
-            vec![1],
-            Oldest(1).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![2, 1],
-            Oldest(2).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![3, 2, 1],
-            Oldest(3).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3, 2, 1],
-            Oldest(4).removals(&Remove(false, false), &versions)
-        );
-        assert_eq!(
-            vec![4, 3, 2, 1],
-            Oldest(5).removals(&Remove(false, false), &versions)
-        );
+        assert_eq!(vec![1], Oldest(1).select(&versions));
+        assert_eq!(vec![2, 1], Oldest(2).select(&versions));
+        assert_eq!(vec![3, 2, 1], Oldest(3).select(&versions));
+        assert_eq!(vec![4, 3, 2, 1], Oldest(4).select(&versions));
+        assert_eq!(vec![4, 3, 2, 1], Oldest(5).select(&versions));
     }
 }

@@ -150,7 +150,7 @@ impl Repository {
         };
 
         // add GAVs to repo
-        self.add(gavs);
+        self.add_all(gavs);
 
         // filter version ranges
         if let Some(ref version_range) = filter.version_range {
@@ -241,7 +241,7 @@ impl Repository {
         })
     }
 
-    fn add(&mut self, gavs: Vec<Gav>) {
+    fn add_all(&mut self, gavs: Vec<Gav>) {
         for gav in gavs {
             let group = self.groups.entry(gav.group.id.clone()).or_insert(gav.group);
             let artifact = group
@@ -264,13 +264,29 @@ impl Repository {
                 // Versions are sorted from lowest to highest in the BTreeMap.
                 // For the version range to work we need highest to lowest.
                 artifact_versions.reverse();
-                let removals: &[Version] =
-                    version_range.removals(command, artifact_versions.as_slice());
-                let mut removals_set = HashSet::new();
-                for version in removals {
-                    removals_set.insert(version);
+                let selection = version_range.select(artifact_versions.as_slice());
+                let mut selection_set = HashSet::new();
+                for version in selection {
+                    selection_set.insert(version);
                 }
-                artifact.versions.retain(|k, _| removals_set.contains(k));
+                // The selection is just a selection based on the version range.
+                // Choose the right method depending on the command, but keep in
+                // mind that the repository should only contain those artifacts
+                // that should be removed.
+                //    keep      User wants to keep the selected artifacts
+                //              => remove them from the repo
+                //    rm / du   User wants to remove / analyze the artifacts
+                //              => retain them in the repo
+                match command {
+                    Keep(_, _) => {
+                        for k in selection_set {
+                            artifact.versions.remove(k);
+                        }
+                    }
+                    Remove(_, _) | Du(_, _, _) => {
+                        artifact.versions.retain(|k, _| selection_set.contains(k));
+                    }
+                }
             }
         }
     }

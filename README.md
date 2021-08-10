@@ -97,9 +97,13 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 #### Disk Usage (`du`)
 
-Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the following options:
+Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the same filters as the `keep` and `rm` subcommands, but does not remove any artifacts. Instead, it selects the artifacts matched by the filter and calculates the size of the groups, artifacts and versions. 
 
-* ` -o, --output <OUTPUT>` Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary. Defaults to `ga`.
+The subcommand accepts the following options:
+
+* `-o, --output <OUTPUT>` Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary. Defaults to `ga`.
+
+See the [DU page](DU.md) for more information and sample outputs.
 
 #### Keep / Remove (`keep`, `rm`)
 
@@ -122,21 +126,35 @@ The subcommands accept the following flags:
 
 ## Filter Combinations
 
-At least one of `--releases`, `--snapshots`, `--groups`, `--artifacts` or `--versions` is required, where `--releases` and `--snapshots` are mutually exclusive.
+For subcommands `keep` and `rm` at least one of `--releases`, `--snapshots`, `--groups`, `--artifacts` or`--versions` is required, where `--releases` and `--snapshots` are mutually exclusive.
+
+Subcommand `du` has the same semantics as `rm`, but doesn't require a filter. 
 
 If `--groups` is specified together with any other filter, only artifacts *below* the matched (sub)groups are subject to the subcommands (`keep` resp. `rm`). Artifacts *outside* the matched (sub)groups won't be touched. 
 
 The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
 
-| Filter | keep | rm |
-|---|---|---|
-| `--groups` only | Keeps the specified (sub)groups and removes anything else. | Removes the specified (sub)groups. |
-| `--artifacts` only | Keeps the specified artifacts and removes anything else. | Removes the specified artifacts. |
-| `--versions` only | Keeps the specified versions and removes anything else. | Removes the specified versions. |
-| `--groups` plus any other filter | Keeps the artifacts matched by the filters *below* the specified (sub)groups and removes anything else. | Removes the artifacts matched by the filters *below* the specified (sub)groups and keeps anything else. |
-| All other combinations w/o `--groups` | Keeps the artifacts matched by the filters and removes anything else. | Removes the artifacts matched by the filters. |
+| Filter | du | keep | rm | 
+|---|---|---|---|
+| `--groups` only | Analyzes the specified (sub)groups. | Keeps the specified (sub)groups and removes anything else. | Removes the specified (sub)groups. |
+| `--artifacts` only | Analyzes the specified artifacts. | Keeps the specified artifacts and removes anything else. | Removes the specified artifacts. |
+| `--versions` only | Analyzes the specified versions. | Keeps the specified versions and removes anything else. | Removes the specified versions. |
+| `--groups` plus any other filter | Analyzes the artifacts matched by the filters *below* the specified (sub)groups. | Keeps the artifacts matched by the filters *below* the specified (sub)groups and removes anything else. | Removes the artifacts matched by the filters *below* the specified (sub)groups and keeps anything else. |
+| All other combinations w/o `--groups` | Analyzes the artifacts matched by the filters. | Keeps the artifacts matched by the filters and removes anything else. | Removes the artifacts matched by the filters. |
 
 ## Examples
+
+Get a quick overview which groups take the most space 
+
+```shell
+mcup du -og
+```
+
+Show the usage of all artifacts ending with '-build' and include the groups, artifacts and versions in the summary
+
+```shell
+mcup --artifacts "*-build" du -ogav
+```
 
 Keep the three most recent versions 
 
