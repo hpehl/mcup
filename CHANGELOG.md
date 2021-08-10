@@ -1,39 +1,21 @@
-# Changelog
+# Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.2.0] - unreleased
+<!-- next-header -->
+## [Unreleased] - ReleaseDate
+
 ### Added
 Add `du` subcommand to analyze the disk usage of the selected groups, artifacts and versions.
 
 ### Changed
-Move `dry-run` and `--list` flags to `keep` and `rm` subcommands
+Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 
 ## [0.1.0] - 2021-08-03
 First public release
 
----
-
-## Template
-### Added
-- for new features
-
-### Changed
-- for changes in existing functionality
-
-### Deprecated
-- for soon-to-be removed features
-
-### Removed
-- for now removed features
-
-### Fixed
-- for any bug fixes
-
-### Security
-- in case of vulnerabilities
-
+<!-- next-url -->
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/hpehl/mcup/releases/tag/v0.1.0
-[0.2.0]: https://github.com/hpehl/mcup/compare/v0.1.0...v0.2.0
