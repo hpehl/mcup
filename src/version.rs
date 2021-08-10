@@ -400,7 +400,6 @@ mod version_tests {
 
 #[cfg(test)]
 mod version_range_tests {
-    use crate::command::Command::{Keep, Remove};
     use crate::version::VersionRange::{Exact, Latest, Oldest};
     use crate::version::{Version, VersionRange};
 
