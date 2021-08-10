@@ -88,7 +88,7 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 * `-l, --local-repository <LOCAL_REPOSITORY>` Sets the location of the local maven repository.
 
-  `mcup` respects the configuration of the local repository according to https://maven.apache/org/guides/mini/guide-configuring-maven.html#configuring-your-local-repository. The location of the local repository is computed in this order:
+  `mcup` respects the configuration of the local repository according to https://maven.apache.org/guides/mini/guide-configuring-maven.html#configuring-your-local-repository. The location of the local repository is computed in this order:
 
   1. The value of the option `--local-repository`
   1. The value of `<localRepository/>` in `~/.m2/settings.xml`
