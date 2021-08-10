@@ -8,9 +8,9 @@
 
 `mcup` helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates `groupId`, `artifactId` and `version`. It knows three modes:
 
-1. remove all artifacts selected by the filters and keep the rest
-2. keep all artifacts selected by the filters and remove the rest
-3. analyze and report the size of the artifacts selected by the filters
+1. analyze and report the size of the artifacts selected by the filters
+2. remove all artifacts selected by the filters and keep the rest
+3. keep all artifacts selected by the filters and remove the rest
 
 ## Installation
 
@@ -47,16 +47,6 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 * `-r, --releases` Selects released artifacts only
 
 * `-s, --snapshots` Selects snapshot artifacts only
-
-* `-d, --dry-run` Does not remove artifacts
-
-* `--list` Prints the full path to the artifacts that will be removed. 
-
-  Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
-
-  ```shell
-  mcup --dry-run --list --versions '3..' keep > artifacts.txt
-  ```
 
 * `-h, --help` Prints help information
 
@@ -105,10 +95,30 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Subcommands
 
-Subcommand must be one of
+#### Disk Usage (du)
 
-- `keep`:  Keeps the artifacts matched by the filters and removes the rest
-- `rm`: Removes the artifacts matched by the filters and keeps the rest
+Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the following options:
+
+* ` -o, --output <OUTPUT>` Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary. Defaults to `ga`.
+
+#### Keep / Remove (keep, rm)
+
+Use one of these subcommands to remove artifacts selected by the filters:
+
+* `keep` Keeps the artifacts matched by the filters and removes the rest
+* `rm` Removes the artifacts matched by the filters and keeps the rest
+
+The subcommands accept the following flags:
+
+* `-d, --dry-run` Does not remove artifacts
+
+* `--list` Prints the full path to the artifacts that will be removed.
+
+  Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
+
+  ```shell
+  mcup --dry-run --list --versions '3..' keep > artifacts.txt
+  ```
 
 ## Filter Combinations
 
