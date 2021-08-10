@@ -158,7 +158,7 @@ mcup du -og
 Show the usage of all artifacts ending with '-build'. Include groups, artifacts and versions in the usage summary.
 
 ```shell
-mcup --artifacts "*-build" du -ogav
+mcup --artifacts '*-build' du -ogav
 ```
 
 Keep the three most recent versions 
