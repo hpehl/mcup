@@ -97,7 +97,7 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 #### Disk Usage (`du`)
 
-Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the same filters as the `keep` and `rm` subcommands, but does not remove any artifacts. Instead, it selects the artifacts matched by the filter and calculates the size of the groups, artifacts and versions. 
+Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the same filters as the `keep` and `rm` subcommands, but does not remove any artifacts. Instead, it selects the artifacts matched by the filters and calculates the size of the groups, artifacts and versions. 
 
 The subcommand accepts the following options:
 
@@ -121,7 +121,7 @@ The subcommands accept the following flags:
   Use this flag together with `--dry-run` to review or post-process artifacts that will be removed:
 
   ```shell
-  mcup --dry-run --list --versions '3..' keep > artifacts.txt
+  mcup --versions '3..' keep --dry-run --list > artifacts.txt
   ```
 
 ## Filter Combinations
@@ -130,9 +130,11 @@ For subcommands `keep` and `rm` at least one of `--releases`, `--snapshots`, `--
 
 Subcommand `du` has the same semantics as `rm`, but doesn't require a filter. 
 
-If `--groups` is specified together with any other filter, only artifacts *below* the matched (sub)groups are subject to the subcommands (`keep` resp. `rm`). Artifacts *outside* the matched (sub)groups won't be touched. 
+If `--groups` is specified together with any other filter, only artifacts *below* the matched (sub)groups are 
+subject to the subcommands (`du`, `keep` or `rm`). Artifacts *outside* the matched (sub)groups won't be touched. 
 
-The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
+The following table explains the different filter combinations and describes which artifacts are analyzed, kept or 
+removed.
 
 | Filter | du | keep | rm | 
 |---|---|---|---|
@@ -150,7 +152,7 @@ Get a quick overview which groups take the most space
 mcup du -og
 ```
 
-Show the usage of all artifacts ending with '-build' and include the groups, artifacts and versions in the summary
+Show the usage of all artifacts ending with '-build'. Include groups, artifacts and versions in the usage summary.
 
 ```shell
 mcup --artifacts "*-build" du -ogav

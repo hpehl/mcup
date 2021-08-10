@@ -16,9 +16,9 @@ Maven is a great tool to build software for Java and other languages running on 
 
 The mcup(1) command helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates _groupId_, _artifactId_ and _version_. It knows two modes:
 
+. analyze and report the size of the artifacts selected by the filters
 . remove all artifacts selected by the filters and keep the rest
 . keep all artifacts selected by the filters and remove the rest
-. analyze and report the size of the artifacts selected by the filters
 
 == FLAGS
 
@@ -27,14 +27,6 @@ The mcup(1) command helps you to clean up your local repository. It uses filters
 
 *-s, --snapshots*::
   Selects snapshot artifacts only
-
-*-d, --dry-run*::
-  Does not remove artifacts
-
-*--list*::
-  Prints the full path to the artifacts that will be removed. Use this flag together with _--dry-run_ to review or post-process artifacts that will be removed:
-+
-    mcup --dry-run --list --versions '3..' keep > artifacts.txt
 
 *-h, --help*::
   Prints help information
@@ -72,11 +64,29 @@ Thus, the location of the local repository is computed in this order:
 
 == SUBCOMMANDS
 
+*du*::
+  Analyzes the disk usage of the artifacts selected by the filters. The subcommand accepts the same filters as the _keep_ and _rm_ subcommands, but does not remove any artifacts. Instead, it selects the artifacts matched by the filters and calculates the size of the groups, artifacts and versions.
++
+The subcommand accepts the following options:
+
+  *-o, --output* _OUTPUT_:::
+    Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary. Defaults to _ga_.
+
 *keep*::
   Keeps the artifacts matched by the filters and removes the rest
 
 *rm*::
   Removes the artifacts matched by the filters and keeps the rest
+
+The _keep_ and _rm_ subcommands accepts the following options:
+
+*-d, --dry-run*::
+Does not remove artifacts
+
+*--list*::
+Prints the full path to the artifacts that will be removed. Use this flag together with _--dry-run_ to review or post-process artifacts that will be removed:
++
+    mcup --versions '3..' keep --dry-run --list > artifacts.txt
 
 == EXIT STATUS
 
@@ -91,37 +101,50 @@ Thus, the location of the local repository is computed in this order:
 
 == FILTER COMBINATIONS
 
-At least one of _--releases_, _--snapshots_, _--groups_, _--artifacts_ or _--versions_ is required, where _--releases_ and _--snapshots_ are mutually exclusive.
+For subcommands _keep_ and _rm_ at least one of _--releases_, _--snapshots_, _--groups_, _--artifacts_ or _--versions_ is required, where _--releases_ and _--snapshots_ are mutually exclusive.
 
-If _--groups_ is specified together with any other filter, only artifacts _below_ the matched (sub)groups are subject to the subcommands (_keep_ resp. _rm_). Artifacts _outside_ the matched (sub)groups won't be touched.
+Subcommand _du_ has the same semantics as _rm_, but doesn't require a filter.
 
-The following table explains the different filter combinations and describes which artifacts are kept resp. removed.
+If _--groups_ is specified together with any other filter, only artifacts _below_ the matched (sub)groups are subject to the subcommands (_du_, _keep_ or _rm_). Artifacts _outside_ the matched (sub)groups won't be touched.
+
+The following table explains the different filter combinations and describes which artifacts are analyzed, kept or removed.
 
 |===
-|Filter | keep| rm
+|Filter | du | keep | rm
 
 | _--groups_ only
+| Analyzes the specified (sub)groups.
 | Keeps the specified (sub)groups and removes anything else.
 | Removes the specified (sub)groups.
 
 | _--artifacts_ only
+| Analyzes the specified artifacts.
 | Keeps the specified artifacts and removes anything else.
 | Removes the specified artifacts.
 
 | _--versions_ only
+| Analyzes the specified versions.
 | Keeps the specified versions and removes anything else.
 | Removes the specified versions.
 
 | _--groups_ plus any other filter
+| Analyzes the artifacts matched by the filters *below* the specified (sub)groups.
 | Keeps the artifacts matched by the filters below the specified (sub)groups and removes anything else.
 | Removes the artifacts matched by the filters below the specified (sub)groups and keeps anything else.
 
 | All other combinations w/o _--groups_
+| Analyzes the artifacts matched by the filters.
 | Keeps the artifacts matched by the filters and removes anything else.
 | Removes the artifacts matched by the filters.
 |===
 
 == EXAMPLES
+
+Get a quick overview which groups take the most space +
+*mcup du -og*
+
+Show the usage of all artifacts ending with '-build'. Include groups, artifacts and versions in the usage summary. +
+*mcup --artifacts '+++*+++-build' du -ogav*
 
 Keep the three most recent versions +
 *mcup --versions '3..' keep*
@@ -142,17 +165,17 @@ Keep the latest maven plugins. Don't remove anything outside group 'org.apache.m
 *mcup --groups 'org.apache.maven.plugins' --versions '1..' keep*
 
 Remove all artifacts (across all groups) starting with 'junit' +
-*mcup --artifacts 'junit*' rm*
+*mcup --artifacts 'junit+++*+++' rm*
 
 == VERSION
 
-{VERSION}
+{RELEASE-VERSION}
 
 == RESOURCES
 
 *Homepage:* https://github.com/hpehl/mcup
 
-*Source code:* https://github.com/hpehl/mcup
+*Source Code:* https://github.com/hpehl/mcup
 
 *Issue Tracker:* https://github.com/hpehl/mcup/issues/
 

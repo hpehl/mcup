@@ -2,12 +2,11 @@
 
 The `du` subcommand analyzes the local maven repository. It accepts the same filters as the `keep` and `rm`subcommands, but does not remove artifacts. Instead, it selects the artifacts matched by the filter and calculates the size of the groups, artifacts and versions.
 
-Using the `du` subcommand, you can get a quick overview of the artifacts or take a deep look inside the repository. 
-Use the `-o, --output <OUTPUT>` option to define the granularity of the usage report. 
+Using the `du` subcommand, you can get a quick overview of the artifacts or take a deep look inside the repository. Use the `-o, --output <OUTPUT>` option to define the granularity of the usage report. 
 
 ## Samples
 
-To get a better understanding, here are some screenshots of usage reports:
+To get a better understanding, here are some screenshots of usage reports. All samples use the same group and different output options: 
 
 ### Groups
 
