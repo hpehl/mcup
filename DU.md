@@ -58,7 +58,7 @@ mcup --groups io.undertow du -ogv
 mcup --groups io.undertow du -oav
 ```
 
-![Artifacts & Versions](assets/du/gv.png "Artifacts & Versions")
+![Artifacts & Versions](assets/du/av.png "Artifacts & Versions")
 
 ### Groups, Artifacts & Versions
 
