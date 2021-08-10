@@ -1,6 +1,9 @@
 [![Build status](https://github.com/BurntSushi/ripgrep/workflows/ci/badge.svg)](https://github.com/BurntSushi/ripgrep/actions)
 [![Crates.io](https://img.shields.io/crates/v/mcup.svg)](https://crates.io/crates/mcup)
+
 # Maven Clean Up
+
+<img align="right" src="https://raw.githubusercontent.com/hpehl/mcup/main/mcup.svg" height="64" alt="mcup logo"/>
 
 `mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small 📦 and tidy 🧹.
 
