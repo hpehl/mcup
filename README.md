@@ -3,7 +3,7 @@
 
 # Maven Clean Up
 
-<img align="right" src="https://raw.githubusercontent.com/hpehl/mcup/main/mcup.svg" height="64" alt="mcup logo"/>
+<img align="left" src="https://raw.githubusercontent.com/hpehl/mcup/main/mcup.svg" height="64" alt="mcup logo"/>
 
 `mcup` /m'kʌp/ (**m**aven **c**lean **up**) is a command line tool to keep your local maven repository small 📦 and tidy 🧹.
 
