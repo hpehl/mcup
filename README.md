@@ -95,13 +95,13 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 ### Subcommands
 
-#### Disk Usage (du)
+#### Disk Usage (`du`)
 
 Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the following options:
 
 * ` -o, --output <OUTPUT>` Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary. Defaults to `ga`.
 
-#### Keep / Remove (keep, rm)
+#### Keep / Remove (`keep`, `rm`)
 
 Use one of these subcommands to remove artifacts selected by the filters:
 
