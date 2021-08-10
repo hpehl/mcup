@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.2.0] - 2021-08-10
+
 ### Added
 Add `du` subcommand to analyze the disk usage of the selected groups, artifacts and versions.
 
@@ -17,5 +19,6 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 First public release
 
 <!-- next-url -->
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/hpehl/mcup/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/hpehl/mcup/releases/tag/v0.1.0
