@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+Upgrade to Rust 1.56.0 stable (2021 edition)
+
 ## [0.2.1] - 2021-10-21
 
 This release doesn't add new features, but upgrades dependencies only:
