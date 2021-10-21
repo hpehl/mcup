@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.2.2] - 2021-10-21
+
 Upgrade to Rust 1.56.0 stable (2021 edition)
 
 ## [0.2.1] - 2021-10-21
@@ -31,7 +33,8 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 First public release
 
 <!-- next-url -->
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/hpehl/mcup/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/hpehl/mcup/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/hpehl/mcup/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/hpehl/mcup/releases/tag/v0.1.0
