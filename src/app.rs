@@ -1,13 +1,12 @@
-use clap::{crate_name, crate_version, App, AppSettings, Arg};
+use clap::{crate_name, crate_version, App, AppSettings, Arg, ColorChoice};
 
 pub fn build_app() -> App<'static> {
     App::new(crate_name!())
         .version(crate_version!())
         .about("Command line tool to keep your local maven repository small and tidy.")
-        .global_setting(AppSettings::ColoredHelp)
-        .global_setting(AppSettings::VersionlessSubcommands)
+        .color(ColorChoice::Auto)
         .setting(AppSettings::DeriveDisplayOrder)
-        .setting(AppSettings::GlobalVersion)
+        .setting(AppSettings::PropagateVersion)
         .setting(AppSettings::SubcommandRequired)
         .arg(Arg::new("groups")
             .short('g')

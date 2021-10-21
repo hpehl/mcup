@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+This release doesn't add new features, but upgrades dependencies only:
+
+- anyhow: 1.0.42 → 1.0.44
+- clap: 3.0.0-beta.2 → 3.0.0-beta.5
+- clap_generate: 3.0.0-beta.2 → 3.0.0-beta.5
+- console: 0.14.1 → 0.15.0
+- directories: 3.0.2 → 4.0.1
+
 ## [0.2.0] - 2021-08-10
 
 ### Added

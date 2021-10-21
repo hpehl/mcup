@@ -21,10 +21,10 @@ fn generate_shell_completions() -> Result<()> {
     let mut app = build_app();
     app.set_bin_name(APP_NAME);
 
-    generate_to::<Bash, _, _>(&mut app, APP_NAME, &manifest_dir);
-    generate_to::<Fish, _, _>(&mut app, APP_NAME, &manifest_dir);
-    generate_to::<Zsh, _, _>(&mut app, APP_NAME, &manifest_dir);
-    generate_to::<PowerShell, _, _>(&mut app, APP_NAME, &manifest_dir);
-    generate_to::<Elvish, _, _>(&mut app, APP_NAME, &manifest_dir);
+    generate_to::<Bash, _, _>(Bash, &mut app, APP_NAME, &manifest_dir)?;
+    generate_to::<Fish, _, _>(Fish, &mut app, APP_NAME, &manifest_dir)?;
+    generate_to::<Zsh, _, _>(Zsh, &mut app, APP_NAME, &manifest_dir)?;
+    generate_to::<PowerShell, _, _>(PowerShell, &mut app, APP_NAME, &manifest_dir)?;
+    generate_to::<Elvish, _, _>(Elvish, &mut app, APP_NAME, &manifest_dir)?;
     Ok(())
 }

@@ -12,7 +12,6 @@ _mcup() {
             mcup)
                 cmd="mcup"
                 ;;
-            
             du)
                 cmd+="__du"
                 ;;
@@ -32,18 +31,17 @@ _mcup() {
 
     case "${cmd}" in
         mcup)
-            opts=" -g -a -v -l -r -s -h -V  --groups --artifacts --versions --local-repository --releases --snapshots --help --version  keep rm du help"
+            opts="-h -V -g -a -v -l -r -s --help --version --groups --artifacts --versions --local-repository --releases --snapshots keep rm du help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                
                 --groups)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                    -g)
+                -g)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -51,7 +49,7 @@ _mcup() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                    -a)
+                -a)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -59,7 +57,7 @@ _mcup() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                    -v)
+                -v)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -67,7 +65,7 @@ _mcup() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                    -l)
+                -l)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -78,20 +76,18 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        
         mcup__du)
-            opts=" -o -h  --output --help  "
+            opts="-o -h -V --output --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                
                 --output)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                    -o)
+                -o)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -103,13 +99,12 @@ _mcup() {
             return 0
             ;;
         mcup__help)
-            opts=" -h -V  --help --version  "
+            opts="-h --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                
                 *)
                     COMPREPLY=()
                     ;;
@@ -118,13 +113,12 @@ _mcup() {
             return 0
             ;;
         mcup__keep)
-            opts=" -d -h  --dry-run --list --help  "
+            opts="-d -h -V --dry-run --list --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                
                 *)
                     COMPREPLY=()
                     ;;
@@ -133,13 +127,12 @@ _mcup() {
             return 0
             ;;
         mcup__rm)
-            opts=" -d -h  --dry-run --list --help  "
+            opts="-d -h -V --dry-run --list --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                
                 *)
                     COMPREPLY=()
                     ;;
