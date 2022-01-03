@@ -14,10 +14,10 @@ categories = ["command-line-utilities"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.44"
+anyhow = "1.0.52"
 atty = "0.2.14"
 bit-vec = "0.6.3"
-clap = "3.0.0-beta.5"
+clap = "3.0.0"
 console = "0.15.0"
 directories = "4.0.1"
 glob = "0.3.0"
@@ -27,9 +27,9 @@ quick-xml = "0.22.0"
 walkdir = "2.3.2"
 
 [build-dependencies]
-anyhow = "1.0.44"
-clap = "3.0.0-beta.5"
-clap_generate = "3.0.0-beta.5"
+anyhow = "1.0.52"
+clap = "3.0.0"
+clap_generate = "3.0.0"
 
 # use LTO for smaller binaries (that take longer to build)
 [profile.release]
