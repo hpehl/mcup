@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+This release doesn't add new features, but upgrades dependencies only:
+
+- anyhow: 1.0.44 → 1.0.52
+- clap: 3.0.0-beta.5 → 3.0.0
+- clap_generate: 3.0.0-beta.5 → 3.0.0
+
 ## [0.2.2] - 2021-10-21
 
 Upgrade to Rust 1.56.0 stable (2021 edition)
