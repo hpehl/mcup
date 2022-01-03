@@ -66,8 +66,6 @@ set edit:completion:arg-completer[mcup] = [@words]{
             cand --version 'Print version information'
         }
         &'mcup;help'= {
-            cand -h 'Print help information'
-            cand --help 'Print help information'
         }
     ]
     $completions[$command]

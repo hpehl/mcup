@@ -72,8 +72,6 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             break
         }
         'mcup;help' {
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
     })

@@ -52,6 +52,7 @@ dependencies = [
  "atty",
  "bitflags",
  "indexmap",
+ "lazy_static",
  "os_str_bytes",
  "strsim",
  "termcolor",
@@ -65,16 +66,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60d123fbea4c5d9799cffd44051e2125c880efd23b3b7c529baf3ea5508c8736"
 dependencies = [
  "clap",
-]
-
-[[package]]
-name = "clap_generate"
-version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6860a7a7cdb85c6f6256a3352177ea2e44028187bd8d1b2020352c43a2add3cf"
-dependencies = [
- "clap",
- "clap_complete",
 ]
 
 [[package]]
@@ -192,7 +183,7 @@ dependencies = [
  "atty",
  "bit-vec",
  "clap",
- "clap_generate",
+ "clap_complete",
  "console",
  "directories",
  "glob",

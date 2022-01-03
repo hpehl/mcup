@@ -21,4 +21,3 @@ complete -c mcup -n "__fish_seen_subcommand_from rm" -s V -l version -d 'Print v
 complete -c mcup -n "__fish_seen_subcommand_from du" -s o -l output -d 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary' -r
 complete -c mcup -n "__fish_seen_subcommand_from du" -s h -l help -d 'Print help information'
 complete -c mcup -n "__fish_seen_subcommand_from du" -s V -l version -d 'Print version information'
-complete -c mcup -n "__fish_seen_subcommand_from help" -s h -l help -d 'Print help information'

@@ -9,7 +9,7 @@ _mcup() {
     for i in ${COMP_WORDS[@]}
     do
         case "${i}" in
-            mcup)
+            "$1")
                 cmd="mcup"
                 ;;
             du)
@@ -99,7 +99,7 @@ _mcup() {
             return 0
             ;;
         mcup__help)
-            opts="-h --help"
+            opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
