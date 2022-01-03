@@ -1,5 +1,4 @@
-[![Build status](https://github.com/hpehl/mcup/workflows/ci/badge.svg)](https://github.
-com/hpehl/mcup/actions)
+[![Build status](https://github.com/hpehl/mcup/workflows/ci/badge.svg)](https://github.com/hpehl/mcup/actions)
 [![Crates.io](https://img.shields.io/crates/v/mcup.svg)](https://crates.io/crates/mcup)
 
 # Maven Clean Up
