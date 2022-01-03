@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: mcup
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.15
-.\"      Date: 2021-08-10
+.\" Generator: Asciidoctor 2.0.16
+.\"      Date: 2022-01-03
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "MCUP" "1" "2021-08-10" "\ \&" "\ \&"
+.TH "MCUP" "1" "2022-01-03" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -36,7 +36,7 @@ mcup \- Command line tool to keep your local maven repository small and tidy.
 .sp
 Maven is a great tool to build software for Java and other languages running on the JVM. At its core Maven is a dependency manager which downloads and stores dependencies in a local repository. Over time, this repository grows and takes up more and more space on the hard disk. It often contains obsolete versions or dependencies that are no longer needed.
 .sp
-The mcup(1) command helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates \fIgroupId\fP, \fIartifactId\fP and \fIversion\fP. It knows two modes:
+The mcup(1) command helps you to clean up your local repository. It uses filters to select artifacts based on the Maven coordinates \fIgroupId\fP, \fIartifactId\fP and \fIversion\fP. It knows three modes:
 .sp
 .RS 4
 .ie n \{\
@@ -100,9 +100,9 @@ Selects artifacts based on the group ID. Subgroups are included by default:
 .if n .RS 4
 .nf
 .fam C
-\(aqorg\(aq                 All groups starting with \(aqorg\(aq (including \(aqorg\(aq)
-\(aqorg.wildfly\(aq         All groups starting with \(aqorg.wildfly\(aq (includes \(aqorg.wildfly)
-\(aqorg.wildfly.core\(aq    All groups starting with \(aqorg.wildfly.core\(aq (includes \(aqorg.wildfly.core\(aq)
+\*(Aqorg\*(Aq                 All groups starting with \*(Aqorg\*(Aq (including \*(Aqorg\*(Aq)
+\*(Aqorg.wildfly\*(Aq         All groups starting with \*(Aqorg.wildfly\*(Aq (includes \*(Aqorg.wildfly)
+\*(Aqorg.wildfly.core\*(Aq    All groups starting with \*(Aqorg.wildfly.core\*(Aq (includes \*(Aqorg.wildfly.core\*(Aq)
 .fam
 .fi
 .if n .RE
@@ -110,19 +110,19 @@ Selects artifacts based on the group ID. Subgroups are included by default:
 .sp
 \fB\-a, \-\-artifacts\fP \fIARTIFACTS\fP
 .RS 4
-Selects artifacts based on the artifact ID. Supports globbing like in \(aqmaven\-*\-plugin\(aq.
+Selects artifacts based on the artifact ID. Supports globbing like in \*(Aqmaven\-*\-plugin\*(Aq.
 .RE
 .sp
 \fB\-v, \-\-versions\fP \fIVERSIONS\fP
 .RS 4
-Selects artifacts based on version (ranges). Use \fI\(aq<n>..\(aq\fP to select the \fIn\fP most recent versions, \fI\(aq..<n>\(aq\fP to select the \fIn\fP oldest versions and \fI\(aq<version>\(aq\fP to select one specific version only:
+Selects artifacts based on version (ranges). Use \fI\*(Aq<n>..\*(Aq\fP to select the \fIn\fP most recent versions, \fI\*(Aq..<n>\*(Aq\fP to select the \fIn\fP oldest versions and \fI\*(Aq<version>\*(Aq\fP to select one specific version only:
 .sp
 .if n .RS 4
 .nf
 .fam C
-\(aq2..\(aq    the two most recent versions
-\(aq..3\(aq    the three oldest versions
-\(aq1.2.3\(aq  exactly version 1.2.3
+\*(Aq2..\*(Aq    the two most recent versions
+\*(Aq..3\*(Aq    the three oldest versions
+\*(Aq1.2.3\*(Aq  exactly version 1.2.3
 .fam
 .fi
 .if n .RE
@@ -130,7 +130,7 @@ Selects artifacts based on version (ranges). Use \fI\(aq<n>..\(aq\fP to select t
 .sp
 \fB\-l, \-\-local\-repository\fP \fILOCAL_REPOSITORY\fP
 .RS 4
-Sets the location of the local maven repository. Respects the directory configured by \fI<localRepository/>\fP in \(aq~/.m2/settings.xml\(aq. Falls back to \(aq~/.m2/repository\(aq, if nothing has been specified or configured.
+Sets the location of the local maven repository. Respects the directory configured by \fI<localRepository/>\fP in \*(Aq~/.m2/settings.xml\*(Aq. Falls back to \*(Aq~/.m2/repository\*(Aq, if nothing has been specified or configured.
 .sp
 Thus, the location of the local repository is computed in this order:
 .sp
@@ -153,7 +153,7 @@ The value of the option \fI\-\-local\-repository\fP
 .  sp -1
 .  IP " 2." 4.2
 .\}
-The value of \fI<localRepository/>\fP in \(aq~/.m2/settings.xml\(aq
+The value of \fI<localRepository/>\fP in \*(Aq~/.m2/settings.xml\*(Aq
 .RE
 .sp
 .RS 4
@@ -164,7 +164,7 @@ The value of \fI<localRepository/>\fP in \(aq~/.m2/settings.xml\(aq
 .  sp -1
 .  IP " 3." 4.2
 .\}
-Fall back to \(aq~/.m2/repository/\(aq
+Fall back to \*(Aq~/.m2/repository/\*(Aq
 .RE
 .RE
 .SH "SUBCOMMANDS"
@@ -205,7 +205,7 @@ Prints the full path to the artifacts that will be removed. Use this flag togeth
 .if n .RS 4
 .nf
 .fam C
-mcup \-\-versions \(aq3..\(aq keep \-\-dry\-run \-\-list > artifacts.txt
+mcup \-\-versions \*(Aq3..\*(Aq keep \-\-dry\-run \-\-list > artifacts.txt
 .fam
 .fi
 .if n .RE
@@ -324,40 +324,40 @@ Get a quick overview which groups take the most space
 .br
 \fBmcup du \-og\fP
 .sp
-Show the usage of all artifacts ending with \(aq\-build\(aq. Include groups, artifacts and versions in the usage summary.
+Show the usage of all artifacts ending with \*(Aq\-build\*(Aq. Include groups, artifacts and versions in the usage summary.
 .br
-\fBmcup \-\-artifacts \(aq*\-build\(aq du \-ogav\fP
+\fBmcup \-\-artifacts \*(Aq*\-build\*(Aq du \-ogav\fP
 .sp
 Keep the three most recent versions
 .br
-\fBmcup \-\-versions \(aq3..\(aq keep\fP
+\fBmcup \-\-versions \*(Aq3..\*(Aq keep\fP
 .sp
 Remove the three oldest versions
 .br
-\fBmcup \-\-versions \(aq..3\(aq rm\fP
+\fBmcup \-\-versions \*(Aq..3\*(Aq rm\fP
 .sp
 Keep the latest releases (doesn\(cqt touch snapshots)
 .br
-\fBmcup \-\-releases \-\-version \(aq1..\(aq keep\fP
+\fBmcup \-\-releases \-\-version \*(Aq1..\*(Aq keep\fP
 .sp
 Remove all snapshots
 .br
 \fBmcup \-\-snapshots rm\fP
 .sp
-Remove all artifacts starting with group ID \(aqedu\(aq
+Remove all artifacts starting with group ID \*(Aqedu\*(Aq
 .br
 \fBmcup \-\-groups edu rm\fP
 .sp
-Keep the latest maven plugins. Don\(cqt remove anything outside group \(aqorg.apache.maven.plugins\(aq.
+Keep the latest maven plugins. Don\(cqt remove anything outside group \*(Aqorg.apache.maven.plugins\*(Aq.
 .br
-\fBmcup \-\-groups \(aqorg.apache.maven.plugins\(aq \-\-versions \(aq1..\(aq keep\fP
+\fBmcup \-\-groups \*(Aqorg.apache.maven.plugins\*(Aq \-\-versions \*(Aq1..\*(Aq keep\fP
 .sp
-Remove all artifacts (across all groups) starting with \(aqjunit\(aq
+Remove all artifacts (across all groups) starting with \*(Aqjunit\*(Aq
 .br
-\fBmcup \-\-artifacts \(aqjunit*\(aq rm\fP
+\fBmcup \-\-artifacts \*(Aqjunit*\*(Aq rm\fP
 .SH "VERSION"
 .sp
-0.1.0
+0.2.3
 .SH "RESOURCES"
 .sp
 \fBHomepage:\fP \c
