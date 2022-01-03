@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.2.3] - 2022-01-03
+
 This release doesn't add new features, but upgrades dependencies only:
 
 - anyhow: 1.0.44 → 1.0.52
@@ -39,7 +41,8 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 First public release
 
 <!-- next-url -->
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/hpehl/mcup/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/hpehl/mcup/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/hpehl/mcup/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/hpehl/mcup/compare/v0.1.0...v0.2.0
