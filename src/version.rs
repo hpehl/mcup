@@ -83,7 +83,7 @@ impl Version {
                 }
             } else if dash == None {
                 // just '.'
-                let (left, right) = current.split_once(".").unwrap();
+                let (left, right) = current.split_once('.').unwrap();
                 match left.parse::<u32>() {
                     Ok(n) => mmp[index] = Some(n),
                     Err(_) => {
@@ -96,7 +96,7 @@ impl Version {
                 // both '.' and '-'
                 if dot.unwrap() < dash.unwrap() {
                     // '.' before '-'
-                    let (left, right) = current.split_once(".").unwrap();
+                    let (left, right) = current.split_once('.').unwrap();
                     match left.parse::<u32>() {
                         Ok(n) => mmp[index] = Some(n),
                         Err(_) => {

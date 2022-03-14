@@ -244,7 +244,7 @@ fn body(repository: &Repository, gav: (bool, bool, bool), hierarchy: bool) {
                             "{}:{}:{}",
                             group.id.clone(),
                             artifact.id.clone(),
-                            version.to_string()
+                            version
                         )
                     };
                     if hierarchy {
