@@ -1,13 +1,13 @@
-use clap::{crate_name, crate_version, App, AppSettings, Arg, ColorChoice};
+use clap::{crate_name, crate_version, AppSettings, Arg, ColorChoice, Command};
 
-pub fn build_app() -> App<'static> {
-    App::new(crate_name!())
+pub fn build_app() -> Command<'static> {
+    Command::new(crate_name!())
         .version(crate_version!())
         .about("Command line tool to keep your local maven repository small and tidy.")
         .color(ColorChoice::Auto)
+        .propagate_version(true)
+        .subcommand_required(true)
         .setting(AppSettings::DeriveDisplayOrder)
-        .setting(AppSettings::PropagateVersion)
-        .setting(AppSettings::SubcommandRequired)
         .arg(Arg::new("groups")
             .short('g')
             .long("groups")
@@ -42,7 +42,7 @@ pub fn build_app() -> App<'static> {
             .long("snapshots")
             .help("Selects snapshot artifacts only")
             .conflicts_with("releases"))
-        .subcommand(App::new("keep")
+        .subcommand(Command::new("keep")
             .about("Keeps the artifacts matched by the filters and removes the rest")
             .arg(Arg::new("dry-run")
                 .short('d')
@@ -51,7 +51,7 @@ pub fn build_app() -> App<'static> {
             .arg(Arg::new("list")
                 .long("list")
                 .help("Prints the full path to the artifacts that will be removed")))
-        .subcommand(App::new("rm")
+        .subcommand(Command::new("rm")
             .about("Removes the artifacts matched by the filters and keeps the rest")
             .arg(Arg::new("dry-run")
                 .short('d')
@@ -60,7 +60,7 @@ pub fn build_app() -> App<'static> {
             .arg(Arg::new("list")
                 .long("list")
                 .help("Prints the full path to the artifacts that will be removed")))
-        .subcommand(App::new("du")
+        .subcommand(Command::new("du")
             .about("Analyzes the size of the artifacts selected by the filters")
             .arg(Arg::new("output")
                 .short('o')
