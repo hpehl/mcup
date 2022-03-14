@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use bit_vec::BitVec;
 use clap::ArgMatches;
-use console::{Alignment, pad_str, Style};
+use console::{pad_str, Alignment, Style};
 use indicatif::{DecimalBytes, HumanDuration};
 
 use crate::artifact::Artifact;
