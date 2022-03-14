@@ -110,7 +110,7 @@ If _--groups_ is specified together with any other filter, only artifacts _below
 The following table explains the different filter combinations and describes which artifacts are analyzed, kept or removed.
 
 |===
-|Filter | du | keep | rm
+| Filter | du | keep | rm
 
 | _--groups_ only
 | Analyzes the specified (sub)groups.
@@ -129,8 +129,8 @@ The following table explains the different filter combinations and describes whi
 
 | _--groups_ plus any other filter
 | Analyzes the artifacts matched by the filters *below* the specified (sub)groups.
-| Keeps the artifacts matched by the filters below the specified (sub)groups and removes anything else.
-| Removes the artifacts matched by the filters below the specified (sub)groups and keeps anything else.
+| Keeps the artifacts matched by the filters *below* the specified (sub)groups and removes anything else.
+| Removes the artifacts matched by the filters *below* the specified (sub)groups and keeps anything else.
 
 | All other combinations w/o _--groups_
 | Analyzes the artifacts matched by the filters.
