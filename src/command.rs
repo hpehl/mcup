@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use bit_vec::BitVec;
 use clap::ArgMatches;
-use console::{pad_str, Alignment, Style};
+use console::{Alignment, pad_str, Style};
 use indicatif::{DecimalBytes, HumanDuration};
 
 use crate::artifact::Artifact;
@@ -240,12 +240,7 @@ fn body(repository: &Repository, gav: (bool, bool, bool), hierarchy: bool) {
                     } else if artifacts {
                         version.to_string().clone()
                     } else {
-                        format!(
-                            "{}:{}:{}",
-                            group.id.clone(),
-                            artifact.id.clone(),
-                            version
-                        )
+                        format!("{}:{}:{}", group.id.clone(), artifact.id.clone(), version)
                     };
                     if hierarchy {
                         if groups && artifacts {
