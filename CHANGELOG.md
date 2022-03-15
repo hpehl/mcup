@@ -12,6 +12,7 @@ This release doesn't add new features, but upgrades dependencies only:
 - anyhow: 1.0.52 → 1.0.56
 - clap: 3.0.0 → 3.1.6
 - clap_complete: 3.0.0 → 3.1.1
+- regex: 1.5.4 → 1.5.5
 
 ## [0.2.3] - 2022-01-03
 
