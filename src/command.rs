@@ -13,7 +13,7 @@ use crate::version::Version;
 
 // ------------------------------------------------------ command
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Command {
     // dry-run, list
     Keep(bool, bool),

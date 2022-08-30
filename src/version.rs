@@ -201,9 +201,9 @@ impl VersionRange {
 
     pub fn parse(version: &str) -> Result<VersionRange> {
         if let Some(count) = version.strip_suffix("..") {
-            VersionRange::extract_versions(version, count, VersionRange::Latest)
+            VersionRange::extract_versions(version, count, Latest)
         } else if let Some(count) = version.strip_prefix("..") {
-            VersionRange::extract_versions(version, count, VersionRange::Oldest)
+            VersionRange::extract_versions(version, count, Oldest)
         } else {
             match Version::from_str(version) {
                 Ok(v) => Ok(Exact(v)),
@@ -252,7 +252,7 @@ impl VersionRange {
 
 // ------------------------------------------------------ release type
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum ReleaseType {
     Releases,
     Snapshots,
