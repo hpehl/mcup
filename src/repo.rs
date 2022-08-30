@@ -1,8 +1,7 @@
 use std::collections::{BTreeMap, HashSet};
 use std::ffi::OsStr;
 use std::fmt::{Display, Formatter};
-use std::fs::{remove_dir, remove_dir_all, File};
-use std::io::BufReader;
+use std::fs::{read_to_string, remove_dir, remove_dir_all};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
@@ -11,6 +10,7 @@ use clap::ArgMatches;
 use directories::BaseDirs;
 use indicatif::{ProgressBar, ProgressStyle};
 use quick_xml::events::Event;
+use quick_xml::name::QName;
 use quick_xml::Reader;
 use walkdir::{DirEntry, WalkDir};
 
@@ -52,27 +52,27 @@ impl Repository {
                 let home = base_dirs.home_dir();
                 let settings_xml = home.join(".m2/settings.xml");
                 if settings_xml.exists() {
-                    let f = File::open(settings_xml)
+                    let string = read_to_string(settings_xml)
                         .with_context(|| "Unable to read ~/.settings.xml")?;
-                    let buf = BufReader::new(f);
-                    let mut reader = Reader::from_reader(buf);
+                    let mut reader = Reader::from_str(string.as_str());
                     reader.trim_text(true);
 
-                    let mut buf = Vec::new();
-                    let mut txt = Vec::new();
-                    let local_repo: Option<String> = loop {
-                        match reader.read_event(&mut buf) {
+                    let local_repo = loop {
+                        match reader.read_event() {
                             Ok(Event::Start(ref e)) => {
-                                if e.name() == b"localRepository" {
-                                    break reader.read_text(b"localRepository", &mut txt).ok();
+                                if e.name().as_ref() == b"localRepository" {
+                                    break reader
+                                        .read_text(QName(b"localRepository"))
+                                        .map(String::from)
+                                        .ok();
                                 }
                             }
                             Ok(Event::Eof) => break None,
                             Err(_) => break None,
                             _ => {}
                         };
-                        buf.clear();
                     };
+
                     match local_repo {
                         Some(value) => {
                             // use <localRepository/> value from ~/.m2/settings.xml
@@ -183,9 +183,10 @@ impl Repository {
             .with_style(
                 ProgressStyle::default_spinner()
                     .tick_chars("/|\\- ")
-                    .template("{spinner:.dim.bold} {prefix} {wide_msg}"),
+                    .template("{spinner:.dim.bold} {prefix} {wide_msg}")
+                    .unwrap(),
             );
-        progress_bar.enable_steady_tick(100);
+        progress_bar.enable_steady_tick(Duration::from_millis(100));
 
         for dir_entry in WalkDir::new(self.path.as_path())
             .min_depth(1)
@@ -335,7 +336,8 @@ impl Repository {
                     .with_style(
                         ProgressStyle::default_bar()
                             .progress_chars("#>-")
-                            .template("{prefix} [{wide_bar:.green/yellow}] {pos:>6}/{len:6}"),
+                            .template("{prefix} [{wide_bar:.green/yellow}] {pos:>6}/{len:6}")
+                            .unwrap(),
                     ),
             )
         } else {
