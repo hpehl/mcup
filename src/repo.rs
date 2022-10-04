@@ -41,7 +41,7 @@ impl Repository {
     //   3. Fall back to `~/.m2/repository/`
     // Whether the local repository really exists is the caller's responsibility
     pub fn locate(args: &ArgMatches) -> Result<Repository> {
-        match args.value_of("local-repository") {
+        match args.get_one::<String>("local-repository") {
             Some(path) => {
                 // use --local-repository option
                 Ok(Repository::new(Path::new(path).to_path_buf()))

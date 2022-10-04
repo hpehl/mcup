@@ -26,13 +26,13 @@ impl Command {
     pub fn from(args: &ArgMatches) -> Command {
         if args.subcommand_matches("keep").is_some() {
             let sub_args = args.subcommand_matches("keep").unwrap();
-            Keep(sub_args.is_present("dry-run"), sub_args.is_present("list"))
+            Keep(sub_args.get_flag("dry-run"), sub_args.get_flag("list"))
         } else if args.subcommand_matches("rm").is_some() {
             let sub_args = args.subcommand_matches("rm").unwrap();
-            Remove(sub_args.is_present("dry-run"), sub_args.is_present("list"))
+            Remove(sub_args.get_flag("dry-run"), sub_args.get_flag("list"))
         } else if args.subcommand_matches("du").is_some() {
             let sub_args = args.subcommand_matches("du").unwrap();
-            let output = sub_args.value_of("output");
+            let output = sub_args.get_one::<String>("output");
             let (groups, artifacts, versions) = if let Some(output) = output {
                 (
                     output.contains('g'),

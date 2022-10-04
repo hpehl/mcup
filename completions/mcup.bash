@@ -8,21 +8,33 @@ _mcup() {
 
     for i in ${COMP_WORDS[@]}
     do
-        case "${i}" in
-            "$1")
+        case "${cmd},${i}" in
+            ",$1")
                 cmd="mcup"
                 ;;
-            du)
-                cmd+="__du"
+            mcup,du)
+                cmd="mcup__du"
                 ;;
-            help)
-                cmd+="__help"
+            mcup,help)
+                cmd="mcup__help"
                 ;;
-            keep)
-                cmd+="__keep"
+            mcup,keep)
+                cmd="mcup__keep"
                 ;;
-            rm)
-                cmd+="__rm"
+            mcup,rm)
+                cmd="mcup__rm"
+                ;;
+            mcup__help,du)
+                cmd="mcup__help__du"
+                ;;
+            mcup__help,help)
+                cmd="mcup__help__help"
+                ;;
+            mcup__help,keep)
+                cmd="mcup__help__keep"
+                ;;
+            mcup__help,rm)
+                cmd="mcup__help__rm"
                 ;;
             *)
                 ;;
@@ -31,7 +43,7 @@ _mcup() {
 
     case "${cmd}" in
         mcup)
-            opts="-h -V -g -a -v -l -r -s --help --version --groups --artifacts --versions --local-repository --releases --snapshots keep rm du help"
+            opts="-g -a -v -l -r -s -h -V --groups --artifacts --versions --local-repository --releases --snapshots --help --version keep rm du help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -69,6 +81,22 @@ _mcup() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                --releases)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -r)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --snapshots)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -s)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -99,8 +127,64 @@ _mcup() {
             return 0
             ;;
         mcup__help)
-            opts="<SUBCOMMAND>..."
+            opts="keep rm du help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        mcup__help__du)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        mcup__help__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        mcup__help__keep)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        mcup__help__rm)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
@@ -119,6 +203,18 @@ _mcup() {
                 return 0
             fi
             case "${prev}" in
+                --dry-run)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -d)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --list)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;
@@ -133,6 +229,18 @@ _mcup() {
                 return 0
             fi
             case "${prev}" in
+                --dry-run)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -d)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --list)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;

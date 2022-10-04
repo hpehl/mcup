@@ -192,7 +192,7 @@ pub enum VersionRange {
 
 impl VersionRange {
     pub fn from(args: &ArgMatches) -> Option<VersionRange> {
-        if let Some(version) = args.value_of("versions") {
+        if let Some(version) = args.get_one::<String>("versions") {
             VersionRange::parse(version).ok()
         } else {
             None
@@ -260,9 +260,9 @@ pub enum ReleaseType {
 
 impl ReleaseType {
     pub fn from(args: &ArgMatches) -> Option<ReleaseType> {
-        if args.is_present("releases") {
+        if args.get_flag("releases") {
             Some(Releases)
-        } else if args.is_present("snapshots") {
+        } else if args.get_flag("snapshots") {
             Some(Snapshots)
         } else {
             None

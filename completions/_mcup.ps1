@@ -29,14 +29,14 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             [CompletionResult]::new('--versions', 'versions', [CompletionResultType]::ParameterName, 'Selects artifacts based on version (ranges). Use ''<n>..'' to select the n most recent versions, ''..<n>'' to select the n oldest versions and ''<version>'' to select one specific version only.')
             [CompletionResult]::new('-l', 'l', [CompletionResultType]::ParameterName, 'Sets the location of the local maven repository. Respects the directory configured in ''~/.m2/settings.xml''. Falls back to ''~/.m2/repository'', if nothing has been specified or configured.')
             [CompletionResult]::new('--local-repository', 'local-repository', [CompletionResultType]::ParameterName, 'Sets the location of the local maven repository. Respects the directory configured in ''~/.m2/settings.xml''. Falls back to ''~/.m2/repository'', if nothing has been specified or configured.')
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
-            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('-r', 'r', [CompletionResultType]::ParameterName, 'Selects released artifacts only')
             [CompletionResult]::new('--releases', 'releases', [CompletionResultType]::ParameterName, 'Selects released artifacts only')
             [CompletionResult]::new('-s', 's', [CompletionResultType]::ParameterName, 'Selects snapshot artifacts only')
             [CompletionResult]::new('--snapshots', 'snapshots', [CompletionResultType]::ParameterName, 'Selects snapshot artifacts only')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
+            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('keep', 'keep', [CompletionResultType]::ParameterValue, 'Keeps the artifacts matched by the filters and removes the rest')
             [CompletionResult]::new('rm', 'rm', [CompletionResultType]::ParameterValue, 'Removes the artifacts matched by the filters and keeps the rest')
             [CompletionResult]::new('du', 'du', [CompletionResultType]::ParameterValue, 'Analyzes the size of the artifacts selected by the filters')
@@ -73,6 +73,22 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             break
         }
         'mcup;help' {
+            [CompletionResult]::new('keep', 'keep', [CompletionResultType]::ParameterValue, 'Keeps the artifacts matched by the filters and removes the rest')
+            [CompletionResult]::new('rm', 'rm', [CompletionResultType]::ParameterValue, 'Removes the artifacts matched by the filters and keeps the rest')
+            [CompletionResult]::new('du', 'du', [CompletionResultType]::ParameterValue, 'Analyzes the size of the artifacts selected by the filters')
+            [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
+            break
+        }
+        'mcup;help;keep' {
+            break
+        }
+        'mcup;help;rm' {
+            break
+        }
+        'mcup;help;du' {
+            break
+        }
+        'mcup;help;help' {
             break
         }
     })

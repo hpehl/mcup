@@ -51,7 +51,7 @@ pub struct GroupFilter {
 
 impl GroupFilter {
     pub fn from(args: &ArgMatches, local_repo: &Path) -> Option<GroupFilter> {
-        if let Some(group_id) = args.value_of("groups") {
+        if let Some(group_id) = args.get_one::<String>("groups") {
             let group_path =
                 local_repo.join(group_id.replace('.', MAIN_SEPARATOR.to_string().as_str()));
             Some(GroupFilter {

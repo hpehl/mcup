@@ -50,9 +50,10 @@ pub struct ArtifactFilter {
 
 impl ArtifactFilter {
     pub fn from(args: &ArgMatches) -> Option<ArtifactFilter> {
-        args.value_of("artifacts").map(|artifact| ArtifactFilter {
-            artifacts: artifact.to_string(),
-        })
+        args.get_one::<String>("artifacts")
+            .map(|artifact| ArtifactFilter {
+                artifacts: artifact.to_string(),
+            })
     }
 
     pub fn match_artifact_id(&self, artifact_id: &str) -> bool {

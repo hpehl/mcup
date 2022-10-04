@@ -23,8 +23,8 @@ extern crate lazy_static;
 
 fn main() -> Result<()> {
     let args = build_app()
-        .mut_arg("artifacts", |arg| arg.validator(validate_artifacts))
-        .mut_arg("versions", |arg| arg.validator(validate_versions))
+        .mut_arg("artifacts", |arg| arg.value_parser(parse_artifacts))
+        .mut_arg("versions", |arg| arg.value_parser(parse_versions))
         .get_matches();
     validate_command(&args)?;
 
@@ -50,11 +50,11 @@ fn main() -> Result<()> {
 
 fn validate_command(args: &ArgMatches) -> Result<()> {
     if (args.subcommand_matches("keep").is_some() || args.subcommand_matches("rm").is_some())
-        && !args.is_present("groups")
-        && !args.is_present("artifacts")
-        && !args.is_present("versions")
-        && !args.is_present("snapshots")
-        && !args.is_present("releases")
+        && !args.get_flag("groups")
+        && !args.get_flag("artifacts")
+        && !args.get_flag("versions")
+        && !args.get_flag("snapshots")
+        && !args.get_flag("releases")
     {
         bail!(
             r#"Subcommand {} requires a filter, but one was not provided
@@ -70,14 +70,14 @@ For more information try {}"#,
     Ok(())
 }
 
-fn validate_artifacts(artifacts: &str) -> Result<(), String> {
+fn parse_artifacts(artifacts: &str) -> Result<(), String> {
     match Pattern::new(artifacts) {
         Ok(_) => Ok(()),
         Err(e) => Err(format!("Illegal artifact pattern: {}", e.msg)),
     }
 }
 
-fn validate_versions(version: &str) -> Result<(), String> {
+fn parse_versions(version: &str) -> Result<(), String> {
     match VersionRange::parse(version) {
         Ok(_) => Ok(()),
         Err(e) => Err(e.to_string()),
