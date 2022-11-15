@@ -54,8 +54,8 @@ impl Version {
             let dot = current.find('.');
             let dash = current.find('-');
 
-            if dot == None {
-                if dash == None {
+            if dot.is_none() {
+                if dash.is_none() {
                     // neither '.' nor '-'
                     match current.parse::<u32>() {
                         Ok(n) => {
@@ -81,7 +81,7 @@ impl Version {
                     }
                     break;
                 }
-            } else if dash == None {
+            } else if dash.is_none() {
                 // just '.'
                 let (left, right) = current.split_once('.').unwrap();
                 match left.parse::<u32>() {
