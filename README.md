@@ -67,7 +67,7 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 
 * `-a, --artifacts <ARTIFACTS>`  Selects artifacts based on the artifact ID. 
 
-  Supports globbing like in `maven-*-plugin` (see https://docs.rs/glob/0.3.0/glob/ for more details).
+  Supports globbing like in `maven-*-plugin` (see https://docs.rs/glob/latest/glob/ for more details).
 
   | Artifact     | Selection                          |
   | ------------ | ---------------------------------- |
