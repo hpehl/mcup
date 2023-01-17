@@ -33,10 +33,10 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             [CompletionResult]::new('--releases', 'releases', [CompletionResultType]::ParameterName, 'Selects released artifacts only')
             [CompletionResult]::new('-s', 's', [CompletionResultType]::ParameterName, 'Selects snapshot artifacts only')
             [CompletionResult]::new('--snapshots', 'snapshots', [CompletionResultType]::ParameterName, 'Selects snapshot artifacts only')
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
-            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version')
+            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version')
             [CompletionResult]::new('keep', 'keep', [CompletionResultType]::ParameterValue, 'Keeps the artifacts matched by the filters and removes the rest')
             [CompletionResult]::new('rm', 'rm', [CompletionResultType]::ParameterValue, 'Removes the artifacts matched by the filters and keeps the rest')
             [CompletionResult]::new('du', 'du', [CompletionResultType]::ParameterValue, 'Analyzes the size of the artifacts selected by the filters')
@@ -47,29 +47,29 @@ Register-ArgumentCompleter -Native -CommandName 'mcup' -ScriptBlock {
             [CompletionResult]::new('-d', 'd', [CompletionResultType]::ParameterName, 'Does not remove artifacts')
             [CompletionResult]::new('--dry-run', 'dry-run', [CompletionResultType]::ParameterName, 'Does not remove artifacts')
             [CompletionResult]::new('--list', 'list', [CompletionResultType]::ParameterName, 'Prints the full path to the artifacts that will be removed')
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
-            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version')
+            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version')
             break
         }
         'mcup;rm' {
             [CompletionResult]::new('-d', 'd', [CompletionResultType]::ParameterName, 'Does not remove artifacts')
             [CompletionResult]::new('--dry-run', 'dry-run', [CompletionResultType]::ParameterName, 'Does not remove artifacts')
             [CompletionResult]::new('--list', 'list', [CompletionResultType]::ParameterName, 'Prints the full path to the artifacts that will be removed')
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
-            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version')
+            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version')
             break
         }
         'mcup;du' {
             [CompletionResult]::new('-o', 'o', [CompletionResultType]::ParameterName, 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary')
             [CompletionResult]::new('--output', 'output', [CompletionResultType]::ParameterName, 'Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary')
-            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
-            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
-            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help')
+            [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version')
+            [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version')
             break
         }
         'mcup;help' {

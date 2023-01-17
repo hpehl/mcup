@@ -27,10 +27,10 @@ _mcup() {
 '(-s --snapshots)--releases=[Selects released artifacts only]: : ' \
 '(-r --releases)-s+[Selects snapshot artifacts only]: : ' \
 '(-r --releases)--snapshots=[Selects snapshot artifacts only]: : ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 ":: :_mcup_commands" \
 "*::: :->mcup" \
 && ret=0
@@ -45,10 +45,10 @@ _arguments "${_arguments_options[@]}" \
 '-d+[Does not remove artifacts]: : ' \
 '--dry-run=[Does not remove artifacts]: : ' \
 '--list=[Prints the full path to the artifacts that will be removed]: : ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 && ret=0
 ;;
 (rm)
@@ -56,20 +56,20 @@ _arguments "${_arguments_options[@]}" \
 '-d+[Does not remove artifacts]: : ' \
 '--dry-run=[Does not remove artifacts]: : ' \
 '--list=[Prints the full path to the artifacts that will be removed]: : ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 && ret=0
 ;;
 (du)
 _arguments "${_arguments_options[@]}" \
 '-o+[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT: ' \
 '--output=[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT: ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 && ret=0
 ;;
 (help)
