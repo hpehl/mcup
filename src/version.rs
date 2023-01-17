@@ -54,68 +54,68 @@ impl Version {
             let dot = current.find('.');
             let dash = current.find('-');
 
-            if dot.is_none() {
-                if dash.is_none() {
-                    // neither '.' nor '-'
-                    match current.parse::<u32>() {
-                        Ok(n) => {
-                            mmp[index] = Some(n);
-                            if version.ends_with(current) {
+            if let Some(dot_value) = dot {
+                if let Some(dash_value) = dash {
+                    // both '.' and '-'
+                    if dot_value < dash_value {
+                        // '.' before '-'
+                        let (left, right) = current.split_once('.').unwrap();
+                        match left.parse::<u32>() {
+                            Ok(n) => mmp[index] = Some(n),
+                            Err(_) => {
+                                qual = Some(String::from(right));
                                 break;
                             }
                         }
-                        Err(_) => {
-                            qual = Some(String::from(current));
-                            break;
+                        current = right;
+                    } else {
+                        // '-' before '.'
+                        let (left, right) = current.split_once('-').unwrap();
+                        match left.parse::<u32>() {
+                            Ok(n) => {
+                                mmp[index] = Some(n);
+                                qual = Some(String::from(right));
+                            }
+                            Err(_) => qual = Some(String::from(current)),
                         }
-                    }
-                } else {
-                    // just '-'
-                    let (left, right) = current.split_once('-').unwrap();
-                    match left.parse::<u32>() {
-                        Ok(n) => {
-                            mmp[index] = Some(n);
-                            qual = Some(String::from(right));
-                        }
-                        Err(_) => qual = Some(String::from(current)),
-                    }
-                    break;
-                }
-            } else if dash.is_none() {
-                // just '.'
-                let (left, right) = current.split_once('.').unwrap();
-                match left.parse::<u32>() {
-                    Ok(n) => mmp[index] = Some(n),
-                    Err(_) => {
-                        qual = Some(String::from(right.trim_matches('.')));
                         break;
                     }
-                }
-                current = right;
-            } else {
-                // both '.' and '-'
-                if dot.unwrap() < dash.unwrap() {
-                    // '.' before '-'
+                } else {
+                    // just '.'
                     let (left, right) = current.split_once('.').unwrap();
                     match left.parse::<u32>() {
                         Ok(n) => mmp[index] = Some(n),
                         Err(_) => {
-                            qual = Some(String::from(right));
+                            qual = Some(String::from(right.trim_matches('.')));
                             break;
                         }
                     }
                     current = right;
-                } else {
-                    // '-' before '.'
-                    let (left, right) = current.split_once('-').unwrap();
-                    match left.parse::<u32>() {
-                        Ok(n) => {
-                            mmp[index] = Some(n);
-                            qual = Some(String::from(right));
-                        }
-                        Err(_) => qual = Some(String::from(current)),
+                }
+            } else if let Some(_dash_value) = dash {
+                // just '-'
+                let (left, right) = current.split_once('-').unwrap();
+                match left.parse::<u32>() {
+                    Ok(n) => {
+                        mmp[index] = Some(n);
+                        qual = Some(String::from(right));
                     }
-                    break;
+                    Err(_) => qual = Some(String::from(current)),
+                }
+                break;
+            } else {
+                // neither '.' nor '-'
+                match current.parse::<u32>() {
+                    Ok(n) => {
+                        mmp[index] = Some(n);
+                        if version.ends_with(current) {
+                            break;
+                        }
+                    }
+                    Err(_) => {
+                        qual = Some(String::from(current));
+                        break;
+                    }
                 }
             }
 
