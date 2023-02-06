@@ -14,7 +14,7 @@ categories = ["command-line-utilities"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.68"
+anyhow = "1.0.69"
 atty = "0.2.14"
 bit-vec = "0.6.3"
 clap = { version = "4.1.4", features = ["cargo"] }
@@ -28,7 +28,7 @@ regex = "1.7.1"
 walkdir = "2.3.2"
 
 [build-dependencies]
-anyhow = "1.0.68"
+anyhow = "1.0.69"
 clap = { version = "4.1.4", features = ["cargo"] }
 clap_complete = "4.1.1"
 
