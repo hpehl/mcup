@@ -166,16 +166,16 @@ impl Hash for Version {
 impl Display for Version {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if let Some(i) = self.major {
-            write!(f, "{}", i)?;
+            write!(f, "{i}")?;
         }
         if let Some(i) = self.minor {
-            write!(f, ".{}", i)?;
+            write!(f, ".{i}")?;
         }
         if let Some(i) = self.patch {
-            write!(f, ".{}", i)?;
+            write!(f, ".{i}")?;
         }
         if let Some(q) = &self.qualifier {
-            write!(f, ".{}", q)?;
+            write!(f, ".{q}")?;
         }
         write!(f, "{}", if self.snapshot { "-SNAPSHOT" } else { "" })
     }

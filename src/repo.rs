@@ -349,7 +349,7 @@ impl Repository {
                 for version in artifact.versions.values() {
                     if list {
                         if let Some(str) = version.path.as_os_str().to_str() {
-                            println!("{}", str);
+                            println!("{str}");
                         }
                     } else if let Some(progress_bar) = &progress_bar {
                         progress_bar.inc(1);
