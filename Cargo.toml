@@ -24,7 +24,7 @@ glob = "0.3.1"
 indicatif = "0.17.3"
 lazy_static = "1.4.0"
 quick-xml = "0.28.2"
-regex = "1.8.1"
+regex = "1.8.2"
 walkdir = "2.3.3"
 
 [build-dependencies]
