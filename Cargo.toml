@@ -23,7 +23,7 @@ directories = "5.0.1"
 glob = "0.3.1"
 indicatif = "0.17.5"
 lazy_static = "1.4.0"
-quick-xml = "0.28.2"
+quick-xml = "0.29.0"
 regex = "1.8.4"
 walkdir = "2.3.3"
 
