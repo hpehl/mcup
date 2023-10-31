@@ -25,7 +25,7 @@ indicatif = "0.17.7"
 lazy_static = "1.4.0"
 quick-xml = "0.30.0"
 regex = "1.10.2"
-walkdir = "2.3.3"
+walkdir = "2.4.0"
 
 [build-dependencies]
 anyhow = "1.0.75"
