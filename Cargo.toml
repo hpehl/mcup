@@ -30,7 +30,7 @@ walkdir = "2.5.0"
 [build-dependencies]
 anyhow = "1.0.86"
 clap = { version = "4.5.4", features = ["cargo"] }
-clap_complete = "4.5.2"
+clap_complete = "4.5.3"
 
 # use LTO for smaller binaries (that take longer to build)
 [profile.release]
