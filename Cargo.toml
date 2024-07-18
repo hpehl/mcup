@@ -16,7 +16,7 @@ categories = ["command-line-utilities"]
 [dependencies]
 anyhow = "1.0.86"
 atty = "0.2.14"
-bit-vec = "0.7.0"
+bit-vec = "0.8.0"
 clap = { version = "4.5.9", features = ["cargo"] }
 console = "0.15.8"
 directories = "5.0.1"
