@@ -17,7 +17,7 @@ categories = ["command-line-utilities"]
 anyhow = "1.0.86"
 atty = "0.2.14"
 bit-vec = "0.8.0"
-clap = { version = "4.5.13", features = ["cargo"] }
+clap = { version = "4.5.15", features = ["cargo"] }
 console = "0.15.8"
 directories = "5.0.1"
 glob = "0.3.1"
@@ -29,7 +29,7 @@ walkdir = "2.5.0"
 
 [build-dependencies]
 anyhow = "1.0.86"
-clap = { version = "4.5.13", features = ["cargo"] }
+clap = { version = "4.5.15", features = ["cargo"] }
 clap_complete = "4.5.12"
 
 # use LTO for smaller binaries (that take longer to build)
