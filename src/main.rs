@@ -1,3 +1,5 @@
+use std::io;
+use std::io::{stdin, stdout, IsTerminal};
 use anyhow::{bail, Result};
 use clap::ArgMatches;
 use glob::Pattern;
@@ -33,7 +35,7 @@ fn main() -> Result<()> {
         let command = Command::from(&args);
         let filter = Filter::from(&args, local_repo.path.as_path());
         let duration = local_repo.process(&command, &filter);
-        if atty::is(atty::Stream::Stdout) {
+        if stdout().is_terminal() { 
             println!();
             command.summary(&local_repo, duration);
         }
