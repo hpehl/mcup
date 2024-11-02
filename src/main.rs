@@ -1,8 +1,9 @@
-use std::io;
-use std::io::{stdin, stdout, IsTerminal};
+#[macro_use]
+extern crate lazy_static;
 use anyhow::{bail, Result};
 use clap::ArgMatches;
 use glob::Pattern;
+use std::io::{stdout, IsTerminal};
 
 use app::build_app;
 
@@ -19,9 +20,6 @@ mod filter;
 mod group;
 mod repo;
 mod version;
-
-#[macro_use]
-extern crate lazy_static;
 
 fn main() -> Result<()> {
     let args = build_app()
