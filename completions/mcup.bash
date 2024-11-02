@@ -251,4 +251,8 @@ _mcup() {
     esac
 }
 
-complete -F _mcup -o bashdefault -o default mcup
+if [[ "${BASH_VERSINFO[0]}" -eq 4 && "${BASH_VERSINFO[1]}" -ge 4 || "${BASH_VERSINFO[0]}" -gt 4 ]]; then
+    complete -F _mcup -o nosort -o bashdefault -o default mcup
+else
+    complete -F _mcup -o bashdefault -o default mcup
+fi

@@ -55,7 +55,7 @@ impl Repository {
                     let string = read_to_string(settings_xml)
                         .with_context(|| "Unable to read ~/.settings.xml")?;
                     let mut reader = Reader::from_str(string.as_str());
-                    reader.trim_text(true);
+                    reader.config_mut().trim_text(true);
 
                     let local_repo = loop {
                         match reader.read_event() {

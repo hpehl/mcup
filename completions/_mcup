@@ -14,19 +14,19 @@ _mcup() {
     fi
 
     local context curcontext="$curcontext" state line
-    _arguments "${_arguments_options[@]}" \
-'-g+[Selects artifacts based on the group ID. Subgroups are included by default.]:GROUPS: ' \
-'--groups=[Selects artifacts based on the group ID. Subgroups are included by default.]:GROUPS: ' \
-'-a+[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]:ARTIFACTS: ' \
-'--artifacts=[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]:ARTIFACTS: ' \
-'-v+[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]:VERSIONS: ' \
-'--versions=[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]:VERSIONS: ' \
-'-l+[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY: ' \
-'--local-repository=[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY: ' \
-'(-s --snapshots)-r+[Selects released artifacts only]: : ' \
-'(-s --snapshots)--releases=[Selects released artifacts only]: : ' \
-'(-r --releases)-s+[Selects snapshot artifacts only]: : ' \
-'(-r --releases)--snapshots=[Selects snapshot artifacts only]: : ' \
+    _arguments "${_arguments_options[@]}" : \
+'-g+[Selects artifacts based on the group ID. Subgroups are included by default.]:GROUPS:_default' \
+'--groups=[Selects artifacts based on the group ID. Subgroups are included by default.]:GROUPS:_default' \
+'-a+[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]:ARTIFACTS:_default' \
+'--artifacts=[Selects artifacts based on the artifact ID. Supports globbing like in '\''maven-*-plugin'\''.]:ARTIFACTS:_default' \
+'-v+[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]:VERSIONS:_default' \
+'--versions=[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]:VERSIONS:_default' \
+'-l+[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY:_default' \
+'--local-repository=[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY:_default' \
+'(-s --snapshots)-r+[Selects released artifacts only]: :_default' \
+'(-s --snapshots)--releases=[Selects released artifacts only]: :_default' \
+'(-r --releases)-s+[Selects snapshot artifacts only]: :_default' \
+'(-r --releases)--snapshots=[Selects snapshot artifacts only]: :_default' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -41,10 +41,10 @@ _mcup() {
         curcontext="${curcontext%:*:*}:mcup-command-$line[1]:"
         case $line[1] in
             (keep)
-_arguments "${_arguments_options[@]}" \
-'-d+[Does not remove artifacts]: : ' \
-'--dry-run=[Does not remove artifacts]: : ' \
-'--list=[Prints the full path to the artifacts that will be removed]: : ' \
+_arguments "${_arguments_options[@]}" : \
+'-d+[Does not remove artifacts]: :_default' \
+'--dry-run=[Does not remove artifacts]: :_default' \
+'--list=[Prints the full path to the artifacts that will be removed]: :_default' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -52,10 +52,10 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (rm)
-_arguments "${_arguments_options[@]}" \
-'-d+[Does not remove artifacts]: : ' \
-'--dry-run=[Does not remove artifacts]: : ' \
-'--list=[Prints the full path to the artifacts that will be removed]: : ' \
+_arguments "${_arguments_options[@]}" : \
+'-d+[Does not remove artifacts]: :_default' \
+'--dry-run=[Does not remove artifacts]: :_default' \
+'--list=[Prints the full path to the artifacts that will be removed]: :_default' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -63,9 +63,9 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (du)
-_arguments "${_arguments_options[@]}" \
-'-o+[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT: ' \
-'--output=[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT: ' \
+_arguments "${_arguments_options[@]}" : \
+'-o+[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT:_default' \
+'--output=[Defines whether (g)roups, (a)rtifacts and (v)ersions are included in the usage summary]:OUTPUT:_default' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -73,7 +73,7 @@ _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 ":: :_mcup__help_commands" \
 "*::: :->help" \
 && ret=0
@@ -85,19 +85,19 @@ _arguments "${_arguments_options[@]}" \
         curcontext="${curcontext%:*:*}:mcup-help-command-$line[1]:"
         case $line[1] in
             (keep)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (rm)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (du)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (help)
-_arguments "${_arguments_options[@]}" \
+_arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
         esac
@@ -124,11 +124,6 @@ _mcup__du_commands() {
     local commands; commands=()
     _describe -t commands 'mcup du commands' commands "$@"
 }
-(( $+functions[_mcup__help__du_commands] )) ||
-_mcup__help__du_commands() {
-    local commands; commands=()
-    _describe -t commands 'mcup help du commands' commands "$@"
-}
 (( $+functions[_mcup__help_commands] )) ||
 _mcup__help_commands() {
     local commands; commands=(
@@ -138,6 +133,11 @@ _mcup__help_commands() {
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'mcup help commands' commands "$@"
+}
+(( $+functions[_mcup__help__du_commands] )) ||
+_mcup__help__du_commands() {
+    local commands; commands=()
+    _describe -t commands 'mcup help du commands' commands "$@"
 }
 (( $+functions[_mcup__help__help_commands] )) ||
 _mcup__help__help_commands() {
@@ -149,15 +149,15 @@ _mcup__help__keep_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help keep commands' commands "$@"
 }
-(( $+functions[_mcup__keep_commands] )) ||
-_mcup__keep_commands() {
-    local commands; commands=()
-    _describe -t commands 'mcup keep commands' commands "$@"
-}
 (( $+functions[_mcup__help__rm_commands] )) ||
 _mcup__help__rm_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help rm commands' commands "$@"
+}
+(( $+functions[_mcup__keep_commands] )) ||
+_mcup__keep_commands() {
+    local commands; commands=()
+    _describe -t commands 'mcup keep commands' commands "$@"
 }
 (( $+functions[_mcup__rm_commands] )) ||
 _mcup__rm_commands() {
@@ -165,4 +165,8 @@ _mcup__rm_commands() {
     _describe -t commands 'mcup rm commands' commands "$@"
 }
 
-_mcup "$@"
+if [ "$funcstack[1]" = "_mcup" ]; then
+    _mcup "$@"
+else
+    compdef _mcup mcup
+fi
