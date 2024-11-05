@@ -13,7 +13,7 @@ use std::hash::{Hash, Hasher};
 
 // ------------------------------------------------------ version
 
-// Maven version number (unfortunately we cannot use SemVer here)
+// Maven version number (unfortunately, we cannot use SemVer here)
 #[derive(Debug, Clone, Ord, PartialOrd)]
 pub struct Version {
     pub major: Option<u32>,

@@ -1,10 +1,16 @@
-use clap::{crate_name, crate_version, Arg, ColorChoice, Command};
+use clap::builder::styling::{AnsiColor, Effects};
+use clap::builder::Styles;
+use clap::{crate_name, crate_version, Arg, Command};
 
 pub fn build_app() -> Command {
     Command::new(crate_name!())
         .version(crate_version!())
         .about("Command line tool to keep your local maven repository small and tidy.")
-        .color(ColorChoice::Auto)
+        .styles(Styles::styled()
+            .header(AnsiColor::Green.on_default() | Effects::BOLD)
+            .usage(AnsiColor::Green.on_default() | Effects::BOLD)
+            .literal(AnsiColor::Blue.on_default() | Effects::BOLD)
+            .placeholder(AnsiColor::Cyan.on_default()))
         .propagate_version(true)
         .subcommand_required(true)
         .arg(Arg::new("groups")

@@ -1,5 +1,14 @@
 #[macro_use]
 extern crate lazy_static;
+
+mod app;
+mod artifact;
+mod command;
+mod filter;
+mod group;
+mod repo;
+mod version;
+
 use anyhow::{bail, Result};
 use clap::ArgMatches;
 use glob::Pattern;
@@ -13,14 +22,6 @@ use crate::repo::Repository;
 use crate::version::VersionRange;
 use console::style;
 
-mod app;
-mod artifact;
-mod command;
-mod filter;
-mod group;
-mod repo;
-mod version;
-
 fn main() -> Result<()> {
     let args = build_app()
         .mut_arg("artifacts", |arg| arg.value_parser(parse_artifacts))
@@ -33,7 +34,7 @@ fn main() -> Result<()> {
         let command = Command::from(&args);
         let filter = Filter::from(&args, local_repo.path.as_path());
         let duration = local_repo.process(&command, &filter);
-        if stdout().is_terminal() { 
+        if stdout().is_terminal() {
             println!();
             command.summary(&local_repo, duration);
         }

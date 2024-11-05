@@ -263,7 +263,7 @@ impl Repository {
                     artifact.versions.keys().cloned().collect();
                 // Don't forget to reverse!
                 // Versions are sorted from lowest to highest in the BTreeMap.
-                // For the version range to work we need highest to lowest.
+                // For the version range to work, we need highest to lowest.
                 artifact_versions.reverse();
                 let selection = version_range.select(artifact_versions.as_slice());
                 let mut selection_set = HashSet::new();
@@ -274,10 +274,9 @@ impl Repository {
                 // Choose the right method depending on the command, but keep in
                 // mind that the repository should only contain those artifacts
                 // that should be removed.
-                //    keep      User wants to keep the selected artifacts
-                //              => remove them from the repo
-                //    rm / du   User wants to remove / analyze the artifacts
-                //              => retain them in the repo
+                //
+                // keep: User wants to keep the selected artifacts => remove them from the repo
+                // rm or du: User wants to remove / analyze the artifacts => retain them in the repo
                 match command {
                     Keep(_, _) => {
                         for k in selection_set {
