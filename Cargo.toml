@@ -18,7 +18,7 @@ anyhow = "1.0.95"
 bit-vec = "0.8.0"
 clap = { version = "4.5.26", features = ["cargo"] }
 console = "0.15.10"
-directories = "5.0.1"
+directories = "6.0.0"
 glob = "0.3.2"
 indicatif = "0.17.9"
 lazy_static = "1.5.0"
