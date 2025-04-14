@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.5] - 2025-04-14
+
 ### Added
 
 - Include shell completions in release and brew formula
@@ -32,7 +34,8 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 
 ## [0.1.0] - 2021-08-03
 
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.4...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.5...HEAD
+[0.2.5]: https://github.com/hpehl/mcup/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/hpehl/mcup/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/hpehl/mcup/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/hpehl/mcup/compare/v0.2.1...v0.2.2
