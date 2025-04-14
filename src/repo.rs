@@ -133,7 +133,7 @@ impl Repository {
                     }
                 }
             } else {
-                // scope is the specified group
+                // scope is the specified group,
                 // then apply the specified filters
                 self.collect(
                     |dir_entry| group_filter.subgroup_of(dir_entry),

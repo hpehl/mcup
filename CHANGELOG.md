@@ -4,15 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-<!-- next-header -->
-## [Unreleased] - ReleaseDate
+## [Unreleased]
 
-This release doesn't add new features, but upgrades dependencies only:
+### Changed
 
-- anyhow: 1.0.52 → 1.0.56
-- clap: 3.0.0 → 3.1.6
-- clap_complete: 3.0.0 → 3.1.8
-- regex: 1.5.4 → 1.5.5
+- Update the release workflow
 
 ## [0.2.3] - 2022-01-03
 
@@ -47,7 +43,6 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 ## [0.1.0] - 2021-08-03
 First public release
 
-<!-- next-url -->
 [Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.3...HEAD
 [0.2.3]: https://github.com/hpehl/mcup/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/hpehl/mcup/compare/v0.2.1...v0.2.2

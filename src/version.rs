@@ -183,7 +183,7 @@ impl Display for Version {
 
 // ------------------------------------------------------ version range
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub enum VersionRange {
     Latest(usize),
     Oldest(usize),

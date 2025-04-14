@@ -71,16 +71,16 @@ For more information try {}"#,
     Ok(())
 }
 
-fn parse_artifacts(artifacts: &str) -> Result<(), String> {
+fn parse_artifacts(artifacts: &str) -> Result<Pattern, String> {
     match Pattern::new(artifacts) {
-        Ok(_) => Ok(()),
+        Ok(p) => Ok(p),
         Err(e) => Err(format!("Illegal artifact pattern: {}", e.msg)),
     }
 }
 
-fn parse_versions(version: &str) -> Result<(), String> {
+fn parse_versions(version: &str) -> Result<VersionRange, String> {
     match VersionRange::parse(version) {
-        Ok(_) => Ok(()),
+        Ok(v) => Ok(v),
         Err(e) => Err(e.to_string()),
     }
 }
