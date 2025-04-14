@@ -58,12 +58,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - id: get-version
-        uses: battila7/get-version-action@v2.3.0
-      - id: upload-binary
-        uses: taiki-e/upload-rust-binary-action@v1
+      - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: mcup
+          include: completions/_mcup,completions/mcup.bash,completions/mcup.fish,
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
   update-formula:

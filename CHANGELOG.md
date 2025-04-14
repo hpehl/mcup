@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Include shell completions in release and brew formula
+
 ## [0.2.4] - 2025-04-14
 
 ### Changed
