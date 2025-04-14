@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.6] - 2025-04-14
+
 ### Fixed
 
 - Fix the release workflow
@@ -38,7 +40,8 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 
 ## [0.1.0] - 2021-08-03
 
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.5...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.6...HEAD
+[0.2.6]: https://github.com/hpehl/mcup/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/hpehl/mcup/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/hpehl/mcup/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/hpehl/mcup/compare/v0.2.2...v0.2.3
