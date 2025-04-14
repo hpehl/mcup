@@ -1,6 +1,6 @@
 [package]
 name = "mcup"
-version = "0.2.3"
+version = "0.2.4"
 authors = [ "Harald Pehl <harald.pehl@gmail.com>" ]
 edition = "2021"
 description = "Command line tool to keep your local maven repository small and tidy."
