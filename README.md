@@ -51,7 +51,7 @@ The repository contains shell completion files for bash, fish, zsh, elvish, and 
 mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
 ```
 
-### Flags
+## Flags
 
 * `-r, --releases` Selects released artifacts only
 
@@ -106,9 +106,9 @@ mcup [FLAGS] [OPTIONS] <SUBCOMMAND>
     2. The value of `<localRepository/>` in `~/.m2/settings.xml`
     3. Fall back to `~/.m2/repository/`
 
-## Subcommands
+# Subcommands
 
-### Disk Usage (`du`)
+## Disk Usage (`du`)
 
 Use this subcommand to analyze the disk usage of the artifacts selected by the filters. The subcommand accepts the same
 filters as the `keep` and `rm` subcommands, but does not remove any artifacts. Instead, it selects the artifacts matched
@@ -121,7 +121,7 @@ The subcommand accepts the following options:
 
 See the [DU page](DU.md) for more information and sample outputs.
 
-### Keep / Remove (`keep`, `rm`)
+## Keep / Remove (`keep`, `rm`)
 
 Use one of these subcommands to remove artifacts selected by the filters:
 
