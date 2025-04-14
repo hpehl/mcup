@@ -61,7 +61,7 @@ jobs:
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: mcup
-          include: completions/_mcup,completions/mcup.bash,completions/mcup.fish,
+          include: completions/_mcup,completions/mcup.bash,completions/mcup.fish
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
   update-formula:
