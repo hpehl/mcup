@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix boolean flags
+
 ## [0.2.6] - 2025-04-14
 
 ### Fixed
