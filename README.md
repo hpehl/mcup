@@ -37,8 +37,9 @@ cargo install mcup
 
 ## Shell Completion
 
-The repository contains shell completion files for bash, fish, zsh, elvish, and PowerShell.
-They're installed automatically by brew. To install them manually:
+<details>
+<summary>The repository contains shell completions for bash, fish, zsh, elvish, and PowerShell.
+They're installed automatically by brew. To install them manually, follow these steps:</summary>
 
 ### Bash
 
@@ -73,6 +74,8 @@ wget https://github.com/hpehl/mcup/raw/main/completions/mcup.elv -O ~/.elvish/li
 Invoke-WebRequest -Uri https://github.com/hpehl/mcup/raw/main/completions/_mcup.ps1 -OutFile "$HOME\.config\powershell\_mcup.ps1"
 . "$HOME\.config\powershell\_mcup.ps1"
 ```
+
+</details>
 
 # Usage
 
