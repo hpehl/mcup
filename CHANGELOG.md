@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Upgrades
+
+- Upgrade dependencies
+
 ## [0.2.7] - 2025-04-15
 
 ### Fixed
