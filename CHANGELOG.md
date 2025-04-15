@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.7] - 2025-04-15
+
 ### Fixed
 
 - Fix boolean flags
@@ -44,7 +46,8 @@ Move `--dry-run` and `--list` flags to `keep` and `rm` subcommands.
 
 ## [0.1.0] - 2021-08-03
 
-[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.6...HEAD
+[Unreleased]: https://github.com/hpehl/mcup/compare/v0.2.7...HEAD
+[0.2.7]: https://github.com/hpehl/mcup/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/hpehl/mcup/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/hpehl/mcup/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/hpehl/mcup/compare/v0.2.3...v0.2.4
