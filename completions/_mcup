@@ -23,10 +23,10 @@ _mcup() {
 '--versions=[Selects artifacts based on version (ranges). Use '\''<n>..'\'' to select the n most recent versions, '\''..<n>'\'' to select the n oldest versions and '\''<version>'\'' to select one specific version only.]:VERSIONS:_default' \
 '-l+[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY:_default' \
 '--local-repository=[Sets the location of the local maven repository. Respects the directory configured in '\''~/.m2/settings.xml'\''. Falls back to '\''~/.m2/repository'\'', if nothing has been specified or configured.]:LOCAL_REPOSITORY:_default' \
-'(-s --snapshots)-r+[Selects released artifacts only]: :_default' \
-'(-s --snapshots)--releases=[Selects released artifacts only]: :_default' \
-'(-r --releases)-s+[Selects snapshot artifacts only]: :_default' \
-'(-r --releases)--snapshots=[Selects snapshot artifacts only]: :_default' \
+'(-s --snapshots)-r[Selects released artifacts only]' \
+'(-s --snapshots)--releases[Selects released artifacts only]' \
+'(-r --releases)-s[Selects snapshot artifacts only]' \
+'(-r --releases)--snapshots[Selects snapshot artifacts only]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -42,9 +42,9 @@ _mcup() {
         case $line[1] in
             (keep)
 _arguments "${_arguments_options[@]}" : \
-'-d+[Does not remove artifacts]: :_default' \
-'--dry-run=[Does not remove artifacts]: :_default' \
-'--list=[Prints the full path to the artifacts that will be removed]: :_default' \
+'-d[Does not remove artifacts]' \
+'--dry-run[Does not remove artifacts]' \
+'--list[Prints the full path to the artifacts that will be removed]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
@@ -53,9 +53,9 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (rm)
 _arguments "${_arguments_options[@]}" : \
-'-d+[Does not remove artifacts]: :_default' \
-'--dry-run=[Does not remove artifacts]: :_default' \
-'--list=[Prints the full path to the artifacts that will be removed]: :_default' \
+'-d[Does not remove artifacts]' \
+'--dry-run[Does not remove artifacts]' \
+'--list[Prints the full path to the artifacts that will be removed]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
