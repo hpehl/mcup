@@ -35,7 +35,7 @@ brew install mcup
 cargo install mcup
 ```
 
-## Shell Completion
+## Shell Completions
 
 <details>
 <summary>The repository contains shell completions for bash, fish, zsh, elvish, and PowerShell.
