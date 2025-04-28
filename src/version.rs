@@ -192,11 +192,7 @@ pub enum VersionRange {
 
 impl VersionRange {
     pub fn from(args: &ArgMatches) -> Option<VersionRange> {
-        if let Some(version) = args.get_one::<String>("versions") {
-            VersionRange::parse(version).ok()
-        } else {
-            None
-        }
+        args.get_one::<VersionRange>("versions").cloned()
     }
 
     pub fn parse(version: &str) -> Result<VersionRange> {

@@ -45,22 +45,18 @@ impl Display for Artifact {
 // ------------------------------------------------------ artifact filter
 
 pub struct ArtifactFilter {
-    pub artifacts: String,
+    pub artifacts: Pattern,
 }
 
 impl ArtifactFilter {
     pub fn from(args: &ArgMatches) -> Option<ArtifactFilter> {
-        args.get_one::<String>("artifacts")
+        args.get_one::<Pattern>("artifacts")
             .map(|artifact| ArtifactFilter {
-                artifacts: artifact.to_string(),
+                artifacts: artifact.clone(),
             })
     }
 
     pub fn match_artifact_id(&self, artifact_id: &str) -> bool {
-        if let Ok(pattern) = Pattern::new(self.artifacts.as_str()) {
-            pattern.matches(artifact_id)
-        } else {
-            false
-        }
+        self.artifacts.matches(artifact_id)
     }
 }

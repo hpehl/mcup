@@ -51,9 +51,9 @@ fn main() -> Result<()> {
 
 fn validate_command(args: &ArgMatches) -> Result<()> {
     if (args.subcommand_matches("keep").is_some() || args.subcommand_matches("rm").is_some())
-        && !args.get_flag("groups")
-        && !args.get_flag("artifacts")
-        && !args.get_flag("versions")
+        && !args.contains_id("groups")
+        && !args.contains_id("artifacts")
+        && !args.contains_id("versions")
         && !args.get_flag("snapshots")
         && !args.get_flag("releases")
     {
