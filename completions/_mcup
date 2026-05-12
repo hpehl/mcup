@@ -74,7 +74,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_mcup__help_commands" \
+":: :_mcup__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -119,13 +119,13 @@ _mcup_commands() {
     )
     _describe -t commands 'mcup commands' commands "$@"
 }
-(( $+functions[_mcup__du_commands] )) ||
-_mcup__du_commands() {
+(( $+functions[_mcup__subcmd__du_commands] )) ||
+_mcup__subcmd__du_commands() {
     local commands; commands=()
     _describe -t commands 'mcup du commands' commands "$@"
 }
-(( $+functions[_mcup__help_commands] )) ||
-_mcup__help_commands() {
+(( $+functions[_mcup__subcmd__help_commands] )) ||
+_mcup__subcmd__help_commands() {
     local commands; commands=(
 'keep:Keeps the artifacts matched by the filters and removes the rest' \
 'rm:Removes the artifacts matched by the filters and keeps the rest' \
@@ -134,33 +134,33 @@ _mcup__help_commands() {
     )
     _describe -t commands 'mcup help commands' commands "$@"
 }
-(( $+functions[_mcup__help__du_commands] )) ||
-_mcup__help__du_commands() {
+(( $+functions[_mcup__subcmd__help__subcmd__du_commands] )) ||
+_mcup__subcmd__help__subcmd__du_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help du commands' commands "$@"
 }
-(( $+functions[_mcup__help__help_commands] )) ||
-_mcup__help__help_commands() {
+(( $+functions[_mcup__subcmd__help__subcmd__help_commands] )) ||
+_mcup__subcmd__help__subcmd__help_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help help commands' commands "$@"
 }
-(( $+functions[_mcup__help__keep_commands] )) ||
-_mcup__help__keep_commands() {
+(( $+functions[_mcup__subcmd__help__subcmd__keep_commands] )) ||
+_mcup__subcmd__help__subcmd__keep_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help keep commands' commands "$@"
 }
-(( $+functions[_mcup__help__rm_commands] )) ||
-_mcup__help__rm_commands() {
+(( $+functions[_mcup__subcmd__help__subcmd__rm_commands] )) ||
+_mcup__subcmd__help__subcmd__rm_commands() {
     local commands; commands=()
     _describe -t commands 'mcup help rm commands' commands "$@"
 }
-(( $+functions[_mcup__keep_commands] )) ||
-_mcup__keep_commands() {
+(( $+functions[_mcup__subcmd__keep_commands] )) ||
+_mcup__subcmd__keep_commands() {
     local commands; commands=()
     _describe -t commands 'mcup keep commands' commands "$@"
 }
-(( $+functions[_mcup__rm_commands] )) ||
-_mcup__rm_commands() {
+(( $+functions[_mcup__subcmd__rm_commands] )) ||
+_mcup__subcmd__rm_commands() {
     local commands; commands=()
     _describe -t commands 'mcup rm commands' commands "$@"
 }

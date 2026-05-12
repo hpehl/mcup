@@ -17,28 +17,28 @@ _mcup() {
                 cmd="mcup"
                 ;;
             mcup,du)
-                cmd="mcup__du"
+                cmd="mcup__subcmd__du"
                 ;;
             mcup,help)
-                cmd="mcup__help"
+                cmd="mcup__subcmd__help"
                 ;;
             mcup,keep)
-                cmd="mcup__keep"
+                cmd="mcup__subcmd__keep"
                 ;;
             mcup,rm)
-                cmd="mcup__rm"
+                cmd="mcup__subcmd__rm"
                 ;;
-            mcup__help,du)
-                cmd="mcup__help__du"
+            mcup__subcmd__help,du)
+                cmd="mcup__subcmd__help__subcmd__du"
                 ;;
-            mcup__help,help)
-                cmd="mcup__help__help"
+            mcup__subcmd__help,help)
+                cmd="mcup__subcmd__help__subcmd__help"
                 ;;
-            mcup__help,keep)
-                cmd="mcup__help__keep"
+            mcup__subcmd__help,keep)
+                cmd="mcup__subcmd__help__subcmd__keep"
                 ;;
-            mcup__help,rm)
-                cmd="mcup__help__rm"
+            mcup__subcmd__help,rm)
+                cmd="mcup__subcmd__help__subcmd__rm"
                 ;;
             *)
                 ;;
@@ -92,7 +92,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__du)
+        mcup__subcmd__du)
             opts="-o -h -V --output --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -114,7 +114,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__help)
+        mcup__subcmd__help)
             opts="keep rm du help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -128,7 +128,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__help__du)
+        mcup__subcmd__help__subcmd__du)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -142,7 +142,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__help__help)
+        mcup__subcmd__help__subcmd__help)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -156,7 +156,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__help__keep)
+        mcup__subcmd__help__subcmd__keep)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -170,7 +170,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__help__rm)
+        mcup__subcmd__help__subcmd__rm)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -184,7 +184,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__keep)
+        mcup__subcmd__keep)
             opts="-d -h -V --dry-run --list --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -198,7 +198,7 @@ _mcup() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        mcup__rm)
+        mcup__subcmd__rm)
             opts="-d -h -V --dry-run --list --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
