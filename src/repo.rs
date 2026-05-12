@@ -63,8 +63,9 @@ impl Repository {
                                 if e.name().as_ref() == b"localRepository" {
                                     break reader
                                         .read_text(QName(b"localRepository"))
-                                        .map(String::from)
-                                        .ok();
+                                        .ok()
+                                        .and_then(|t| t.decode().ok())
+                                        .map(|s| s.into_owned());
                                 }
                             }
                             Ok(Event::Eof) => break None,
