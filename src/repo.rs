@@ -60,12 +60,11 @@ impl Repository {
                     let local_repo = loop {
                         match reader.read_event() {
                             Ok(Event::Start(ref e)) => {
-                                if e.name().as_ref() == b"localRepository" {
+                                if e.name().as_ref() == "localRepository" {
                                     break reader
-                                        .read_text(QName(b"localRepository"))
+                                        .read_text(QName("localRepository"))
                                         .ok()
-                                        .and_then(|t| t.decode().ok())
-                                        .map(|s| s.into_owned());
+                                        .map(|t| t.into_inner().into_owned());
                                 }
                             }
                             Ok(Event::Eof) => break None,
